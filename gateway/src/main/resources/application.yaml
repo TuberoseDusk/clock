@@ -1,0 +1,10 @@
+server:
+  port: 7700
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user
+          uri: http://127.0.0.1:7701
+          predicates:
+            - Path=/user/**
