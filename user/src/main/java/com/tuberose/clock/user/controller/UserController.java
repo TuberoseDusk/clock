@@ -1,10 +1,13 @@
 package com.tuberose.clock.user.controller;
 
+import com.tuberose.clock.common.response.BaseRes;
+import com.tuberose.clock.user.entity.User;
+import com.tuberose.clock.user.request.RegisterReq;
+import com.tuberose.clock.user.response.UserRes;
 import com.tuberose.clock.user.service.UserService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -12,8 +15,15 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/userNumber")
-    public int userNumber() {
-        return userService.getUserNumber();
+    public BaseRes<Integer> userNumber() {
+        return BaseRes.success(userService.getUserNumber());
+    }
+
+    @PostMapping("/register")
+    public BaseRes<UserRes> register(@Valid @RequestBody RegisterReq registerReq) {
+        User user = userService.register(registerReq.getUsername(), registerReq.getPassword());
+        UserRes userRes = new UserRes(user.getUserId(), user.getPassword());
+        return BaseRes.success(userRes);
     }
 
 }
