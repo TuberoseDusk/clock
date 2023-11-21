@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public BaseRes<Void> exceptionHandler(Exception e) {
-        log.error(e.getMessage());
+        log.error(e.getMessage(), e);
         return BaseRes.error();
     }
 }

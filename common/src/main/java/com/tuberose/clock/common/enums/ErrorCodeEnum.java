@@ -16,6 +16,8 @@ public enum ErrorCodeEnum {
     USER_ACCOUNT_NOT_EXIST(1003, "用户账号不存在"),
     USER_PASSWORD_ERROR(1004, "用户密码错误"),
 
+    PASSENGER_EXIST(1101, "乘客已存在"),
+
     REQUEST_PARAM_ERROR(9001, "输入参数错误");
 
 

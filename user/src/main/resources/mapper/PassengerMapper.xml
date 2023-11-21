@@ -26,4 +26,25 @@
             resultMap="PassengerMap">
         select * from passenger where passenger_id = #{passengerId}
     </select>
+    <select id="select" parameterType="com.tuberose.clock.user.entity.Passenger"
+            resultType="com.tuberose.clock.user.entity.Passenger">
+        select * from passenger
+            <where>
+                <if test="passengerId != null">
+                    passenger_id = #{passengerId}
+                </if>
+                <if test="userId != null">
+                    and user_id = #{userId}
+                </if>
+                <if test="identity != null">
+                    and identity = #{identity}
+                </if>
+                <if test="type != null">
+                    and type = #{type}
+                </if>
+                <if test="name != null">
+                    and name = #{name}
+                </if>
+            </where>
+    </select>
 </mapper>
