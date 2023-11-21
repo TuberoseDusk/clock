@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         UserRes userRes = new UserRes();
         BeanUtil.copyProperties(user, userRes);
 
-        String token = JWTEncoder.encode(user.getUserId(), user.getUsername());
+        String token = JWTEncoder.encode(user.getUserId());
         userRes.setToken(token);
         return userRes;
     }

@@ -7,12 +7,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Passenger {
+
+    private Long passengerId;
+
+    private String name;
+
+    private String identity;
+
+    private Integer type;
 
     private Long userId;
-
-    private String username;
-
-    private String password;
-
 }

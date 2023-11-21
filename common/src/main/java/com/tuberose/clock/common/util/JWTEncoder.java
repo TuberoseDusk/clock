@@ -13,7 +13,7 @@ import java.util.Map;
 public class JWTEncoder {
     private static final String key = "clock";
 
-    public static String encode(Long userId, String username) {
+    public static String encode(Long userId) {
         DateTime now = DateTime.now();
         DateTime expire = now.offsetNew(DateField.MONTH, 1);
         Map<String, Object> payload = new HashMap<>();
@@ -22,7 +22,6 @@ public class JWTEncoder {
         payload.put(JWTPayload.NOT_BEFORE, now);
 
         payload.put("userId", userId);
-        payload.put("username", username);
 
         String token = JWTUtil.createToken(payload, key.getBytes());
         log.info("create token: {}", token);

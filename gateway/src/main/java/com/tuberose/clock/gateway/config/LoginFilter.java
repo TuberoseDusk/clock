@@ -1,7 +1,6 @@
 package com.tuberose.clock.gateway.config;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.tuberose.clock.gateway.util.JWTDecoder;
+import com.tuberose.clock.gateway.util.JWTValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -34,12 +33,13 @@ public class LoginFilter implements Ordered, GlobalFilter {
         }
 
         String token = exchange.getRequest().getHeaders().getFirst("token");
-        if (BeanUtil.isEmpty(token)) {
+        if (token == null || token.trim().isEmpty()) {
+            log.error("token is empty.");
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
         }
 
-        if (JWTDecoder.validate(token)) {
+        if (JWTValidator.validate(token)) {
             return chain.filter(exchange);
         } else {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);

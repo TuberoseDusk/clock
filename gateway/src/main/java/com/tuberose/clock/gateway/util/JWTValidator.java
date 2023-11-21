@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
-public class JWTDecoder {
+public class JWTValidator {
     private static final String key = "clock";
 
     public static boolean validate(String token) {
