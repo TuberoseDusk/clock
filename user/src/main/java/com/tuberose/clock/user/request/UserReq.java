@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterReq {
+public class UserReq {
     @NotBlank(message = "username is blank")
     private String username;
     @NotBlank(message = "password is blank")
