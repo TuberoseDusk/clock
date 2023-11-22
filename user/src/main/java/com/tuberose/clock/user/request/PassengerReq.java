@@ -14,9 +14,6 @@ public class PassengerReq {
 
     private Long passengerId;
 
-    @NotBlank(message = "name is blank")
-    private String name;
-
     @NotBlank(message = "identity is blank")
     private String identity;
 

@@ -6,16 +6,26 @@
 
     <resultMap id="PassengerMap" type="com.tuberose.clock.user.entity.Passenger">
         <id column="passenger_id" jdbcType="BIGINT" property="passengerId"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="identity" jdbcType="VARCHAR" property="identity"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.tuberose.clock.user.entity.Passenger">
-        insert into passenger (passenger_id, name, identity, type, user_id)
-            values (#{passengerId}, #{name}, #{identity}, #{type}, #{userId})
+        insert into passenger (passenger_id, identity, type, user_id)
+            values (#{passengerId}, #{identity}, #{type}, #{userId})
     </insert>
+    <update id="updateByPassengerId" parameterType="com.tuberose.clock.user.entity.Passenger">
+        update passenger
+            <set>
+                <if test="identity != null">identity = #{identity},</if>
+                <if test="type != null">type = #{type}</if>
+            </set>
+        where passenger_id = #{passengerId}
+    </update>
+    <delete id="deleteByPassengerId" parameterType="Long">
+        delete from passenger where passenger_id = #{passengerId}
+    </delete>
     <select id="selectByUserId" parameterType="Long"
             resultType="com.tuberose.clock.user.entity.Passenger"
             resultMap="PassengerMap">
@@ -41,9 +51,6 @@
                 </if>
                 <if test="type != null">
                     and type = #{type}
-                </if>
-                <if test="name != null">
-                    and name = #{name}
                 </if>
             </where>
     </select>

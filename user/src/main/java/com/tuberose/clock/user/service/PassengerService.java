@@ -11,4 +11,6 @@ public interface PassengerService {
     Passenger save(PassengerReq passengerReq);
 
     PageRes<PassengerRes> query(Integer pageNum, Integer pageSize);
+
+    void delete(Long passengerId);
 }

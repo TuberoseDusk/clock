@@ -15,6 +15,7 @@ import com.tuberose.clock.user.response.PassengerRes;
 import com.tuberose.clock.user.service.PassengerService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -47,4 +48,18 @@ public class PassengerServiceImpl implements PassengerService {
         List<PassengerRes> passengerResList = BeanUtil.copyToList(passengers, PassengerRes.class);
         return PageRes.of(pageNum, pageSize, passengerPageInfo.getTotal(), passengerResList);
     }
+
+    @Override
+    public void delete(Long passengerId) {
+        Passenger passenger = new Passenger();
+        passenger.setUserId(UserHolder.getUserId());
+        passenger.setPassengerId(passengerId);
+
+        List<Passenger> existPassengers = passengerMapper.select(passenger);
+        if (existPassengers == null || existPassengers.isEmpty()) {
+            throw new BusinessException(ErrorCodeEnum.PASSENGER_NOT_EXIST);
+        }
+        passengerMapper.deleteByPassengerId(passengerId);
+    }
+
 }

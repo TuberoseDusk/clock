@@ -31,4 +31,10 @@ public class PassengerController {
                                        @PathVariable Integer pageSize) {
         return passengerService.query(pageNum, pageSize);
     }
+
+    @DeleteMapping("/delete/{passengerId}")
+    public BaseRes<Void> delete(@PathVariable Long passengerId) {
+        passengerService.delete(passengerId);
+        return BaseRes.success();
+    }
 }

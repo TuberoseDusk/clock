@@ -14,4 +14,8 @@ public interface PassengerMapper {
     Passenger selectByPassengerId(Long passengerId);
 
     List<Passenger> select(Passenger passenger);
+
+    int updateByPassengerId(Passenger passenger);
+
+    int deleteByPassengerId(Long passengerId);
 }
