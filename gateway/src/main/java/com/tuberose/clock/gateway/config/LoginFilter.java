@@ -20,6 +20,8 @@ public class LoginFilter implements Ordered, GlobalFilter {
     private static Set<String> whiteList = new HashSet<>();
     static {
         whiteList.add("/user/welcome");
+        whiteList.add("/user/test/hello");
+        whiteList.add("/business/test/hello");
     }
 
     @Override

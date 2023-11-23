@@ -8,3 +8,7 @@ spring:
           uri: http://127.0.0.1:7701
           predicates:
             - Path=/user/**
+        - id: business
+          uri: http://127.0.0.1:7702
+          predicates:
+            - Path=/business/**

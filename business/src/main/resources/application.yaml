@@ -1,0 +1,13 @@
+server:
+  port: 7702
+  servlet:
+    context-path: /business
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+logging:
+  level:
+    com:
+      tuberose:
+        clock:
+          user:
+            mapper: trace
