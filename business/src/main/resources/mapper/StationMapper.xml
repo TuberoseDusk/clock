@@ -32,7 +32,7 @@
             resultType="com.tuberose.clock.business.entity.Station" resultMap="StationMap">
         select * from station where abbrev = #{abbrev}
     </select>
-    <select id="query" parameterType="com.tuberose.clock.business.entity.Station"
+    <select id="select" parameterType="com.tuberose.clock.business.entity.Station"
             resultType="com.tuberose.clock.business.entity.Station" resultMap="StationMap">
         select * from station
             <where>

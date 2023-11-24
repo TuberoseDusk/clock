@@ -18,6 +18,6 @@ public interface StationMapper {
 
     int deleteByStationId(Long stationId);
 
-    List<Station> query(Station station);
+    List<Station> select(Station station);
 
 }

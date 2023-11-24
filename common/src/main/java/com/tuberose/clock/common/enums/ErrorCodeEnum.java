@@ -22,6 +22,9 @@ public enum ErrorCodeEnum {
 
     STATION_NAME_EXIST(2001, "车站名称已存在"),
     STATION_ABBREV_EXIST(2002, "车站缩写已存在"),
+    STATION_NOT_EXIST(2003, "车站不存在"),
+
+    TRAIN_CODE_EXIST(2101, "车次已存在"),
 
     REQUEST_PARAM_ERROR(9001, "输入参数错误");
 

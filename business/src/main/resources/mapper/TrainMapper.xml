@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuberose.clock.business.mapper.TrainMapper">
+    <resultMap id="TrainMap" type="com.tuberose.clock.business.entity.Train">
+        <id column="train_id" jdbcType="BIGINT" property="trainId"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="start_station" jdbcType="VARCHAR" property="startStation"/>
+        <result column="start_station_abbrev" jdbcType="VARCHAR" property="startStationAbbrev"/>
+        <result column="start_time" jdbcType="TIME" property="startTime"/>
+        <result column="end_station" jdbcType="VARCHAR" property="endStation"/>
+        <result column="end_station_abbrev" jdbcType="VARCHAR" property="endStationAbbrev"/>
+        <result column="end_time" jdbcType="TIME" property="endTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.tuberose.clock.business.entity.Train" >
+        insert into train
+            (train_id, code, type,
+            start_station, start_station_abbrev, start_time, end_station, end_station_abbrev, end_time) values
+            (#{trainId}, #{code}, #{type}, #{startStation}, #{startStationAbbrev}, #{startTime},
+            #{endStation}, #{endStationAbbrev}, #{endTime})
+    </insert>
+    <select id="selectByCode" parameterType="String"
+            resultType="com.tuberose.clock.business.entity.Train" resultMap="TrainMap">
+        select * from train where code = #{code}
+    </select>
+    <select id="select" parameterType="com.tuberose.clock.business.entity.Train"
+            resultType="com.tuberose.clock.business.entity.Train" resultMap="TrainMap">
+        select * from train
+            <where>
+                <if test="trainId != null">train_id = #{trainId}</if>
+                <if test="code != null">and code = #{code}</if>
+                <if test="type != null">and type = #{type}</if>
+                <if test="startStation != null">and start_station like '%' #{startStation} '%'</if>
+                <if test="startStationAbbrev != null">and start_station_abbrev = #{startStationAbbrev}</if>
+                <if test="startTime != null">and start_time = #{startTime}</if>
+                <if test="endStation != null">and end_station like '%' #{endStation} '%'</if>
+                <if test="endStationAbbrev != null">and end_station_abbrev = #{endStationAbbrev}</if>
+                <if test="endTime != null">and end_time = #{endTime}</if>
+            </where>
+    </select>
+
+</mapper>

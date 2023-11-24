@@ -51,7 +51,7 @@ public class StationServiceImpl implements StationService {
     public PageRes<StationRes> query(StationReq stationReq, Integer pageNum, Integer pageSize) {
         Station station = BeanUtil.copyProperties(stationReq, Station.class);
         PageHelper.startPage(pageNum, pageSize);
-        List<Station> stations = stationMapper.query(station);
+        List<Station> stations = stationMapper.select(station);
 
         PageInfo<Station> stationPageInfo = new PageInfo<>(stations);
         List<StationRes> stationResList = BeanUtil.copyToList(stations, StationRes.class);
