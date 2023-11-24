@@ -21,7 +21,7 @@ public class LoginFilter implements Ordered, GlobalFilter {
     static {
         whiteList.add("/user/welcome");
         whiteList.add("/user/test/hello");
-        whiteList.add("/business/test/hello");
+        whiteList.add("/business");
     }
 
     @Override

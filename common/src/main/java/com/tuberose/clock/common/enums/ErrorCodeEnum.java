@@ -20,6 +20,9 @@ public enum ErrorCodeEnum {
     PASSENGER_ID_MISSING(1102, "乘客ID丢失"),
     PASSENGER_NOT_EXIST(1103, "乘客不存在"),
 
+    STATION_NAME_EXIST(2001, "车站名称已存在"),
+    STATION_ABBREV_EXIST(2002, "车站缩写已存在"),
+
     REQUEST_PARAM_ERROR(9001, "输入参数错误");
 
 

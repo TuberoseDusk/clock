@@ -14,7 +14,7 @@ public class BusinessApplication {
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(BusinessApplication.class);
 		Environment env = application.run(args).getEnvironment();
-		log.info("user module is running.\thttp://127.0.0.1:{}", env.getProperty("server.port"));
+		log.info("business module is running.\thttp://127.0.0.1:{}", env.getProperty("server.port"));
 	}
 
 }
