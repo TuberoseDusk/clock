@@ -30,7 +30,7 @@ public class StationAdminController {
 
     @GetMapping("/query/{pageNum}/{pageSize}")
     public PageRes<StationRes> query(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
-                                     @RequestBody(required = false) StationReq stationReq) {
+                                     StationReq stationReq) {
         return stationService.query(stationReq, pageNum, pageSize);
     }
 }

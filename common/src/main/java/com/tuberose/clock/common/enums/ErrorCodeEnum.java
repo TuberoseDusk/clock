@@ -25,6 +25,12 @@ public enum ErrorCodeEnum {
     STATION_NOT_EXIST(2003, "车站不存在"),
 
     TRAIN_CODE_EXIST(2101, "车次已存在"),
+    TRAIN_CODE_NOT_EXIST(2102, "车次不存在"),
+
+    STOP_NOT_EXIST(2201, "站点不存在"),
+    STOP_IS_START(2202, "站点是始发站"),
+    STOP_IS_END(2203, "站点是终点站"),
+    ILLEGAL_STOP_INDEX(2204, "站点序号非法"),
 
     REQUEST_PARAM_ERROR(9001, "输入参数错误");
 

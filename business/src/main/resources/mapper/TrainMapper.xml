@@ -22,6 +22,9 @@
             (#{trainId}, #{code}, #{type}, #{startStation}, #{startStationAbbrev}, #{startTime},
             #{endStation}, #{endStationAbbrev}, #{endTime})
     </insert>
+    <delete id="delete" parameterType="Long">
+        delete from train where train_id = #{trainId}
+    </delete>
     <select id="selectByCode" parameterType="String"
             resultType="com.tuberose.clock.business.entity.Train" resultMap="TrainMap">
         select * from train where code = #{code}
@@ -40,6 +43,10 @@
                 <if test="endStationAbbrev != null">and end_station_abbrev = #{endStationAbbrev}</if>
                 <if test="endTime != null">and end_time = #{endTime}</if>
             </where>
+    </select>
+    <select id="selectByTrainId" parameterType="Long"
+            resultType="com.tuberose.clock.business.entity.Train" resultMap="TrainMap">
+        select * from train where train_id = #{trainId}
     </select>
 
 </mapper>

@@ -4,11 +4,14 @@ import cn.hutool.core.bean.BeanUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tuberose.clock.business.entity.Station;
+import com.tuberose.clock.business.entity.Stop;
 import com.tuberose.clock.business.entity.Train;
 import com.tuberose.clock.business.mapper.StationMapper;
+import com.tuberose.clock.business.mapper.StopMapper;
 import com.tuberose.clock.business.mapper.TrainMapper;
 import com.tuberose.clock.business.request.TrainReq;
 import com.tuberose.clock.business.response.TrainRes;
+import com.tuberose.clock.business.service.StopService;
 import com.tuberose.clock.business.service.TrainService;
 import com.tuberose.clock.common.enums.ErrorCodeEnum;
 import com.tuberose.clock.common.exception.BusinessException;
@@ -16,6 +19,7 @@ import com.tuberose.clock.common.response.PageRes;
 import com.tuberose.clock.common.util.Snowflake;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,7 +31,11 @@ public class TrainServiceImpl implements TrainService {
     @Resource
     StationMapper stationMapper;
 
+    @Resource
+    StopMapper stopMapper;
+
     @Override
+    @Transactional
     public void save(TrainReq trainReq) {
         Train train = trainMapper.selectByCode(trainReq.getCode());
         if (train != null) {
@@ -50,6 +58,12 @@ public class TrainServiceImpl implements TrainService {
 
         train.setTrainId(Snowflake.nextId());
         trainMapper.insert(train);
+
+        stopMapper.insert(new Stop(Snowflake.nextId(), trainReq.getCode(), 0,
+                trainReq.getStartStation(), trainReq.getStartTime(), trainReq.getStartTime()));
+
+        stopMapper.insert(new Stop(Snowflake.nextId(), trainReq.getCode(), 1,
+                trainReq.getEndStation(), trainReq.getEndTime(), trainReq.getEndTime()));
     }
 
     @Override
@@ -61,5 +75,17 @@ public class TrainServiceImpl implements TrainService {
         PageInfo<Train> trainPageInfo = new PageInfo<>(trains);
 
         return PageRes.of(pageNum, pageSize, trainPageInfo.getTotal(), BeanUtil.copyToList(trains, TrainRes.class));
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long trainId) {
+        Train train = trainMapper.selectByTrainId(trainId);
+        if (train == null) {
+            throw new BusinessException(ErrorCodeEnum.TRAIN_CODE_NOT_EXIST);
+        }
+
+        trainMapper.delete(trainId);
+        stopMapper.deleteByTrainCode(train.getCode());
     }
 }

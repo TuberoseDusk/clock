@@ -23,7 +23,13 @@ public class TrainAdminController {
 
     @GetMapping("/query/{pageNum}/{pageSize}")
     public PageRes<TrainRes> query(@PathVariable Integer pageNum, @PathVariable Integer pageSize,
-                                   @RequestBody(required = false) TrainReq trainReq) {
+                                   TrainReq trainReq) {
         return trainService.query(trainReq, pageNum, pageSize);
+    }
+
+    @DeleteMapping("/delete/{trainId}")
+    public BaseRes<Void> delete(@PathVariable Long trainId) {
+        trainService.delete(trainId);
+        return BaseRes.success();
     }
 }

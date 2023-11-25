@@ -8,4 +8,6 @@ public interface TrainService {
     void save(TrainReq trainReq);
 
     PageRes<TrainRes> query(TrainReq trainReq, Integer pageNum, Integer pageSize);
+
+    void  delete(Long trainId);
 }

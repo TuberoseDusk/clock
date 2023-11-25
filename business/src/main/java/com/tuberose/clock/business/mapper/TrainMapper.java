@@ -12,4 +12,8 @@ public interface TrainMapper {
     Train selectByCode(String code);
 
     List<Train> select(Train train);
+
+    Train selectByTrainId(Long trainId);
+
+    int delete(Long trainId);
 }

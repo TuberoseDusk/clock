@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuberose.clock.business.mapper.StopMapper">
+    <resultMap id="StopMap" type="com.tuberose.clock.business.entity.Stop">
+        <id column="stop_id" jdbcType="BIGINT" property="stopId"/>
+        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="index" jdbcType="INTEGER" property="index"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="arrival_time" jdbcType="TIME" property="arrivalTime"/>
+        <result column="departure_time" jdbcType="TIME" property="departureTime"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.tuberose.clock.business.entity.Stop">
+        insert into stop (stop_id, train_code, `index`, name, arrival_time, departure_time)
+            values
+            (#{stopId}, #{trainCode}, #{index}, #{name}, #{arrivalTime}, #{departureTime})
+    </insert>
+    <update id="updateIndex">
+        update stop set `index` = #{index} where stop_id = #{stopId}
+    </update>
+    <delete id="deleteByStopId" parameterType="Long">
+        delete from stop where stop_id = #{stopId}
+    </delete>
+    <delete id="deleteByTrainCode" parameterType="String">
+        delete from stop where train_code = #{trainCode}
+    </delete>
+    <select id="selectByName" parameterType="String"
+            resultType="com.tuberose.clock.business.entity.Stop" resultMap="StopMap">
+        select * from stop where name = #{name}
+    </select>
+    <select id="selectByTrainCodeOrderByIndex" parameterType="String"
+            resultType="com.tuberose.clock.business.entity.Stop" resultMap="StopMap">
+        select * from stop where train_code = #{trainCode}
+            order by `index`;
+    </select>
+    <select id="selectByTrainCodeAndIndex"
+            resultType="com.tuberose.clock.business.entity.Stop" resultMap="StopMap">
+        select * from stop where train_code = #{trainCode} and `index` = #{index}
+    </select>
+    <select id="selectByStopId" parameterType="Long"
+            resultType="com.tuberose.clock.business.entity.Stop" resultMap="StopMap">
+        select * from stop where stop_id = #{stopId}
+    </select>
+</mapper>
