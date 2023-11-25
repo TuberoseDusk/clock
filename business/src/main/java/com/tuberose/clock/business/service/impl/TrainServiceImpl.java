@@ -26,13 +26,13 @@ import java.util.List;
 @Service
 public class TrainServiceImpl implements TrainService {
     @Resource
-    TrainMapper trainMapper;
+    private TrainMapper trainMapper;
 
     @Resource
-    StationMapper stationMapper;
+    private StationMapper stationMapper;
 
     @Resource
-    StopMapper stopMapper;
+    private StopMapper stopMapper;
 
     @Override
     @Transactional

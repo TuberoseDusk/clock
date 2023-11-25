@@ -44,7 +44,6 @@ public class StopServiceImpl implements StopService {
             }
         }
 
-
         Stop stop = BeanUtil.copyProperties(stopReq, Stop.class);
         stop.setStopId(Snowflake.nextId());
 

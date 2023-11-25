@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuberose.clock.business.mapper.CarriageMapper">
+    <resultMap id="CarriageMap" type="com.tuberose.clock.business.entity.Carriage">
+        <id column="carriage_id" jdbcType="BIGINT" property="carriageId"/>
+        <result column="trainCode" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="index" jdbcType="INTEGER" property="index"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="row_count" jdbcType="INTEGER" property="rowCount"/>
+        <result column="col_count" jdbcType="INTEGER" property="colCount"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.tuberose.clock.business.entity.Carriage">
+        insert into carriage (carriage_id, train_code, `index`, type, row_count, col_count)
+            values
+            (#{carriageId}, #{trainCode}, #{index}, #{type}, #{rowCount}, #{colCount})
+    </insert>
+    <update id="updateIndex">
+        update carriage set `index` = #{index} where carriage_id = #{carriageId}
+    </update>
+    <delete id="delete" parameterType="Long">
+        delete from carriage where carriage_id = #{carriageId}
+    </delete>
+    <select id="selectByTrainCodeOrderByIndex"
+            resultType="com.tuberose.clock.business.entity.Carriage" resultMap="CarriageMap">
+        select * from carriage where train_code = #{TrainCode} order by `index`
+    </select>
+    <select id="selectByTrainCodeAndIndex"
+            resultType="com.tuberose.clock.business.entity.Carriage"
+            resultMap="CarriageMap">
+        select * from carriage where train_code = #{TrainCode} and `index` = #{index}
+    </select>
+    <select id="selectByCarriageId"
+            resultType="com.tuberose.clock.business.entity.Carriage" resultMap="CarriageMap">
+        select * from carriage where carriage_id = #{carriageId}
+    </select>
+
+</mapper>

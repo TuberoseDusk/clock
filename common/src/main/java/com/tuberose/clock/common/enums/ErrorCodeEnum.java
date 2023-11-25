@@ -32,6 +32,9 @@ public enum ErrorCodeEnum {
     STOP_IS_END(2203, "站点是终点站"),
     ILLEGAL_STOP_INDEX(2204, "站点序号非法"),
 
+    CARRIAGE_EXIST(2301, "车厢已存在"),
+    ILLEGAL_CARRIAGE_INDEX(2302, "车厢编号非法"),
+
     REQUEST_PARAM_ERROR(9001, "输入参数错误");
 
 
