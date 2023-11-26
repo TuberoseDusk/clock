@@ -18,6 +18,7 @@
         <module>gateway</module>
         <module>user</module>
         <module>business</module>
+        <module>dispatch</module>
     </modules>
 
     <name>clock</name>
