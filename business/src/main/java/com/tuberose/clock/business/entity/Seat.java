@@ -7,12 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Carriage {
-
-    private Long carriageId;
+public class Seat {
+    private Long seatId;
 
     private String trainCode;
-    private Integer index;
+    private Integer carriageIndex;
+    private Integer type;
 
-    private Integer type;   // 1: 一等座; 2: 二等座； 3: 硬座; 4: 硬卧; 5: 软卧; 6: 无座
+    private String row;
+    private String col;
+    private Integer number;
 }

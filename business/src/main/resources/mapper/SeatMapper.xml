@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuberose.clock.business.mapper.SeatMapper">
+    <resultMap id="SeatMap" type="com.tuberose.clock.business.entity.Seat">
+        <id column="seat_id" jdbcType="BIGINT" property="seatId"/>
+        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="carriage_index" jdbcType="INTEGER" property="carriageIndex"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="row" jdbcType="CHAR" property="row"/>
+        <result column="col" jdbcType="CHAR" property="col"/>
+        <result column="number" jdbcType="INTEGER" property="number"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.tuberose.clock.business.entity.Seat">
+        insert into seat (seat_id, train_code, carriage_index, type, `row`, `col`, number)
+            values (#{seatId}, #{trainCode}, #{carriageIndex}, #{type}, #{row}, #{col}, #{number})
+    </insert>
+</mapper>

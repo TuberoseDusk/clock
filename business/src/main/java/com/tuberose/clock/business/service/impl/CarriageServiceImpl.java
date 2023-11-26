@@ -2,16 +2,20 @@ package com.tuberose.clock.business.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.tuberose.clock.business.entity.Carriage;
+import com.tuberose.clock.business.entity.Seat;
 import com.tuberose.clock.business.entity.Train;
 import com.tuberose.clock.business.mapper.CarriageMapper;
+import com.tuberose.clock.business.mapper.SeatMapper;
 import com.tuberose.clock.business.mapper.TrainMapper;
 import com.tuberose.clock.business.request.CarriageReq;
 import com.tuberose.clock.business.service.CarriageService;
+import com.tuberose.clock.business.util.SeatGenerator;
 import com.tuberose.clock.common.enums.ErrorCodeEnum;
 import com.tuberose.clock.common.exception.BusinessException;
 import com.tuberose.clock.common.util.Snowflake;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +29,11 @@ public class CarriageServiceImpl implements CarriageService {
     @Resource
     private TrainMapper trainMapper;
 
+    @Resource
+    private SeatMapper seatMapper;
+
     @Override
+    @Transactional
     public void save(CarriageReq carriageReq) {
         Train train = trainMapper.selectByCode(carriageReq.getTrainCode());
         if (train == null) {
@@ -57,5 +65,10 @@ public class CarriageServiceImpl implements CarriageService {
         carriage.setCarriageId(Snowflake.nextId());
 
         carriageMapper.insert(carriage);
+
+        List<Seat> seats = SeatGenerator.create(carriage);
+        for (Seat seat : seats) {
+            seatMapper.insert(seat);
+        }
     }
 }

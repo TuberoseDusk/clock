@@ -14,6 +14,4 @@ public class CarriageRes {
     private Integer index;
 
     private Integer type;
-    private Integer rowCount;
-    private Integer colCount;
 }

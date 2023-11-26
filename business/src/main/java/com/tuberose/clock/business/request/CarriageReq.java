@@ -17,8 +17,4 @@ public class CarriageReq {
 
     @NotNull(message = "carriage type is null")
     private Integer type;
-    @NotNull(message = "carriage row count is null")
-    private Integer rowCount;
-    @NotNull(message = "carriage col count is null")
-    private Integer colCount;
 }

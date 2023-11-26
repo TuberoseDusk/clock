@@ -8,13 +8,11 @@
         <result column="trainCode" jdbcType="VARCHAR" property="trainCode"/>
         <result column="index" jdbcType="INTEGER" property="index"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
-        <result column="row_count" jdbcType="INTEGER" property="rowCount"/>
-        <result column="col_count" jdbcType="INTEGER" property="colCount"/>
     </resultMap>
     <insert id="insert" parameterType="com.tuberose.clock.business.entity.Carriage">
-        insert into carriage (carriage_id, train_code, `index`, type, row_count, col_count)
+        insert into carriage (carriage_id, train_code, `index`, type)
             values
-            (#{carriageId}, #{trainCode}, #{index}, #{type}, #{rowCount}, #{colCount})
+            (#{carriageId}, #{trainCode}, #{index}, #{type})
     </insert>
     <update id="updateIndex">
         update carriage set `index` = #{index} where carriage_id = #{carriageId}
