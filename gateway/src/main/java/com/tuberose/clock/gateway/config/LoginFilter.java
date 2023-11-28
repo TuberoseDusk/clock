@@ -17,11 +17,12 @@ import java.util.Set;
 @Slf4j
 public class LoginFilter implements Ordered, GlobalFilter {
 
-    private static Set<String> whiteList = new HashSet<>();
+    private static final Set<String> whiteList = new HashSet<>();
     static {
         whiteList.add("/user/welcome");
         whiteList.add("/user/test/hello");
         whiteList.add("/business");
+        whiteList.add("/dispatch");
     }
 
     @Override

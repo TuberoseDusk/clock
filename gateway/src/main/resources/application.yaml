@@ -12,3 +12,7 @@ spring:
           uri: http://127.0.0.1:7702
           predicates:
             - Path=/business/**
+        - id: dispatch
+          uri: http://127.0.0.1:7703
+          predicates:
+            - Path=/dispatch/**

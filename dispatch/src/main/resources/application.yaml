@@ -1,0 +1,4 @@
+server:
+  port: 7703
+  servlet:
+    context-path: /dispatch
