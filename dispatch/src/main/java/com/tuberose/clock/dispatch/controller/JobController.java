@@ -154,4 +154,15 @@ public class JobController {
         return BaseRes.success(jobResList);
     }
 
+    @PostMapping("/execute/{group}/{name}")
+    public BaseRes<Void> execute(@PathVariable String group, @PathVariable String name) {
+        try {
+            schedulerFactoryBean.getScheduler().triggerJob(JobKey.jobKey(name, group));
+        } catch (SchedulerException e) {
+            throw new BusinessException(ErrorCodeEnum.SCHEDULER_ERROR);
+        }
+        log.info("主动执行定时任务{}", name);
+        return BaseRes.success();
+    }
+
 }
