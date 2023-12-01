@@ -57,6 +57,9 @@ public class CarriageServiceImpl implements CarriageService {
             for (Carriage existCarriage : carriages) {
                 if (existCarriage.getIndex() >= carriageReq.getIndex()) {
                     carriageMapper.updateIndex(existCarriage.getCarriageId(), existCarriage.getIndex() + 1);
+                    System.out.println(existCarriage.getTrainCode());
+                    seatMapper.updateIndexByTrainCodeAndCarriageIndex(existCarriage.getTrainCode(),
+                            existCarriage.getIndex(), existCarriage.getIndex() + 1);
                 }
             }
         }

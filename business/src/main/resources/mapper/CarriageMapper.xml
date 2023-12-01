@@ -5,7 +5,7 @@
 <mapper namespace="com.tuberose.clock.business.mapper.CarriageMapper">
     <resultMap id="CarriageMap" type="com.tuberose.clock.business.entity.Carriage">
         <id column="carriage_id" jdbcType="BIGINT" property="carriageId"/>
-        <result column="trainCode" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
         <result column="index" jdbcType="INTEGER" property="index"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
     </resultMap>

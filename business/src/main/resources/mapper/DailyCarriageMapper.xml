@@ -6,7 +6,7 @@
     <resultMap id="DailyCarriageMap" type="com.tuberose.clock.business.entity.DailyCarriage">
         <id column="daily_carriage_id" jdbcType="BIGINT" property="dailyCarriageId"/>
         <result column="date" jdbcType="DATE" property="date"/>
-        <result column="trainCode" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
         <result column="index" jdbcType="INTEGER" property="index"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
     </resultMap>
