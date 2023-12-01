@@ -11,8 +11,8 @@
         <result column="type" jdbcType="INTEGER" property="type"/>
     </resultMap>
     <insert id="insert">
-        insert into carriage (carriage_id, date, train_code, `index`, type)
-            values (#{carriageId}, #{date}, #{trainCode}, #{index}, #{type})
+        insert into daily_carriage (daily_carriage_id, date, train_code, `index`, type)
+            values (#{dailyCarriageId}, #{date}, #{trainCode}, #{index}, #{type})
     </insert>
     <delete id="deleteByDateAndTrainCode">
         delete from daily_carriage where date = #{date} and train_code = #{trainCode}

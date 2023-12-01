@@ -12,6 +12,7 @@ import com.tuberose.clock.business.service.DailyTrainService;
 import com.tuberose.clock.business.service.StopService;
 import com.tuberose.clock.common.util.Snowflake;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import java.util.List;
 
 
 @Service
+@Slf4j
 public class DailyTrainServiceImpl implements DailyTrainService {
     @Resource
     private DailyTrainMapper dailyTrainMapper;

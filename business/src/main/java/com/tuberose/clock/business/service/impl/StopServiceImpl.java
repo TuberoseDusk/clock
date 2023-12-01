@@ -31,6 +31,8 @@ public class StopServiceImpl implements StopService {
             throw new BusinessException(ErrorCodeEnum.TRAIN_CODE_NOT_EXIST);
         }
 
+        // TODO 同一趟车车站应该不重复
+
         Stop firstStop = stops.get(0);
         Stop lastStop = stops.get(stops.size() - 1);
 

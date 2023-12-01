@@ -48,7 +48,7 @@
             resultType="com.tuberose.clock.business.entity.Train" resultMap="TrainMap">
         select * from train where train_id = #{trainId}
     </select>
-    <select id="selectAll" resultType="com.tuberose.clock.business.entity.Train">
+    <select id="selectAll" resultType="com.tuberose.clock.business.entity.Train" resultMap="TrainMap">
         select * from train
     </select>
 

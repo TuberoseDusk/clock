@@ -20,4 +20,6 @@ public class DailySeat {
     private String row;
     private String col;
     private Integer number;
+
+    private String state;
 }

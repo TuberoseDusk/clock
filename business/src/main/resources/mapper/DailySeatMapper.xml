@@ -12,10 +12,11 @@
         <result column="row" jdbcType="CHAR" property="row"/>
         <result column="col" jdbcType="CHAR" property="col"/>
         <result column="number" jdbcType="INTEGER" property="number"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
     </resultMap>
     <insert id="insert">
-        insert into daily_seat (seat_id, date, train_code, carriage_index, type, `row`, `col`, number)
-        values (#{seatId}, #{date}, #{trainCode}, #{carriageIndex}, #{type}, #{row}, #{col}, #{number})
+        insert into daily_seat (daily_seat_id, date, train_code, carriage_index, type, `row`, `col`, number, state)
+        values (#{dailySeatId}, #{date}, #{trainCode}, #{carriageIndex}, #{type}, #{row}, #{col}, #{number}, #{state})
     </insert>
     <delete id="deleteByDateAndTrainCodeAndCarriageIndexInt">
         delete from daily_seat where date = #{date} and train_code = #{trainCode} and carriage_index = #{carriageIndex}

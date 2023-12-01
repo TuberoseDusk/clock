@@ -5,6 +5,7 @@ import com.tuberose.clock.business.entity.DailyCarriage;
 import com.tuberose.clock.business.entity.DailySeat;
 import com.tuberose.clock.business.entity.Seat;
 import com.tuberose.clock.business.mapper.DailySeatMapper;
+import com.tuberose.clock.business.mapper.DailyStopMapper;
 import com.tuberose.clock.business.mapper.SeatMapper;
 import com.tuberose.clock.business.service.DailySeatService;
 import com.tuberose.clock.common.util.Snowflake;
@@ -22,6 +23,9 @@ public class DailySeatServiceImpl implements DailySeatService {
     @Resource
     private SeatMapper seatMapper;
 
+    @Resource
+    private DailyStopMapper dailyStopMapper;
+
     @Override
     @Transactional
     public void generate(DailyCarriage dailyCarriage) {
@@ -34,6 +38,9 @@ public class DailySeatServiceImpl implements DailySeatService {
             DailySeat dailySeat = BeanUtil.copyProperties(seat, DailySeat.class);
             dailySeat.setDate(dailyCarriage.getDate());
             dailySeat.setDailySeatId(Snowflake.nextId());
+
+            int stopCount = dailyStopMapper.countByDateAndTrainCode(dailyCarriage.getDate(), dailySeat.getTrainCode());
+            dailySeat.setState("0".repeat(stopCount));
             dailySeatMapper.insert(dailySeat);
         }
     }

@@ -10,4 +10,6 @@ public interface DailyStopMapper {
     int deleteByDateAndTrainCode(LocalDate date, String trainCode);
 
     int insert(DailyStop dailyStop);
+
+    int countByDateAndTrainCode(LocalDate date, String trainCode);
 }

@@ -20,4 +20,7 @@
     <delete id="deleteByDateAndTrainCode">
         delete from daily_stop where date = #{date} and train_code = #{trainCode}
     </delete>
+    <select id="countByDateAndTrainCode" resultType="java.lang.Integer">
+        select count(*) from daily_stop where date = #{date} and train_code = #{trainCode}
+    </select>
 </mapper>

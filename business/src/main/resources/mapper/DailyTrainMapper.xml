@@ -17,10 +17,10 @@
     </resultMap>
     <insert id="insert" parameterType="com.tuberose.clock.business.entity.DailyTrain" >
         insert into daily_train
-        (train_id, date, code, type,
+        (daily_train_id, date, code, type,
         start_station, start_station_abbrev, start_time, end_station, end_station_abbrev, end_time)
         values
-        (#{trainId}, #{date}, #{code}, #{type}, #{startStation}, #{startStationAbbrev},
+        (#{dailyTrainId}, #{date}, #{code}, #{type}, #{startStation}, #{startStationAbbrev},
         #{startTime}, #{endStation}, #{endStationAbbrev}, #{endTime})
     </insert>
     <delete id="deleteByDateAndCode">

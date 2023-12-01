@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/admin/daily/")
+@RequestMapping("/admin/daily/train")
 public class DailyTrainAdminController {
 
     @Resource

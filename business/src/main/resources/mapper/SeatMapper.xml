@@ -21,7 +21,7 @@
         update seat set carriage_index = #{newCarriageIndex}
             where train_code = #{trainCode} and carriage_index = #{carriageIndex}
     </update>
-    <select id="selectByTrainCodeAndCarriageIndex" resultType="com.tuberose.clock.business.entity.Seat">
+    <select id="selectByTrainCodeAndCarriageIndex" resultType="com.tuberose.clock.business.entity.Seat" resultMap="SeatMap">
         select * from seat where train_code = #{trainCode} and carriage_index = #{carriageIndex}
     </select>
 </mapper>
