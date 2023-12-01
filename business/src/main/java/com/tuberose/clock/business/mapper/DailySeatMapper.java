@@ -11,4 +11,6 @@ public interface DailySeatMapper {
     int insert(DailySeat dailySeat);
 
     int deleteByDateAndTrainCodeAndCarriageIndexInt(LocalDate date, String trainCode, Integer carriageIndex);
+
+    int countByDateAndTrainCodeAndTypeAndState(LocalDate date, String trainCode, Integer type, String pattern);
 }
