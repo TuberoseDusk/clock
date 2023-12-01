@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuberose.clock.business.mapper.DailyStopMapper">
+    <resultMap id="DailyStopMap" type="com.tuberose.clock.business.entity.DailyStop">
+        <id column="daily_stop_id" jdbcType="BIGINT" property="dailyStopId"/>
+        <result column="date" jdbcType="DATE" property="date"/>
+        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="index" jdbcType="INTEGER" property="index"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime"/>
+        <result column="departure_time" jdbcType="TIMESTAMP" property="departureTime"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.tuberose.clock.business.entity.DailyStop">
+        insert into daily_stop (daily_stop_id, date, train_code, `index`, name, arrival_time, departure_time)
+            values
+            (#{dailyStopId}, #{date}, #{trainCode}, #{index}, #{name}, #{arrivalTime}, #{departureTime})
+    </insert>
+    <delete id="deleteByDateAndTrainCode">
+        delete from daily_stop where date = #{date} and train_code = #{trainCode}
+    </delete>
+</mapper>

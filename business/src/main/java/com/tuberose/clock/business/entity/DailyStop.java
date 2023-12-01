@@ -4,14 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Stop {
+public class DailyStop {
+    private Long dailyStopId;
 
-    private Long stopId;
+    private LocalDate date;
 
     private String trainCode;
 
@@ -19,8 +22,7 @@ public class Stop {
 
     private String name;
 
-    private Integer arrivalTime;
+    private LocalDateTime arrivalTime;
 
-    private Integer departureTime;
-
+    private LocalDateTime departureTime;
 }

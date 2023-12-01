@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.sql.Time;
 
 @Data
 @AllArgsConstructor
@@ -23,8 +21,8 @@ public class StopReq {
     private String name;
 
     @NotNull(message = "stop arrival time is null")
-    private Time arrivalTime;
+    private Integer arrivalTime;
 
     @NotNull(message = "stop departure time is null")
-    private Time departureTime;
+    private Integer departureTime;
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuberose.clock.business.mapper.DailySeatMapper">
+    <resultMap id="SeatMap" type="com.tuberose.clock.business.entity.DailySeat">
+        <id column="daily_seat_id" jdbcType="BIGINT" property="dailySeatId"/>
+        <result column="date" jdbcType="DATE" property="date"/>
+        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="carriage_index" jdbcType="INTEGER" property="carriageIndex"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="row" jdbcType="CHAR" property="row"/>
+        <result column="col" jdbcType="CHAR" property="col"/>
+        <result column="number" jdbcType="INTEGER" property="number"/>
+    </resultMap>
+    <insert id="insert">
+        insert into daily_seat (seat_id, date, train_code, carriage_index, type, `row`, `col`, number)
+        values (#{seatId}, #{date}, #{trainCode}, #{carriageIndex}, #{type}, #{row}, #{col}, #{number})
+    </insert>
+    <delete id="deleteByDateAndTrainCodeAndCarriageIndexInt">
+        delete from daily_seat where date = #{date} and train_code = #{trainCode} and carriage_index = #{carriageIndex}
+    </delete>
+</mapper>

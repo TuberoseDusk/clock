@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
 
 @Data
 @AllArgsConstructor
@@ -20,12 +19,14 @@ public class TrainReq {
 
     @NotBlank(message = "train start station is blank")
     private String startStation;
+
     @NotNull(message = "train start time is null")
-    private Time startTime;
+    private Integer startTime;
 
     @NotBlank(message = "train end station is blank")
     private String endStation;
+
     @NotNull(message = "train end time is null")
-    private Time endTime;
+    private Integer endTime;
 
 }

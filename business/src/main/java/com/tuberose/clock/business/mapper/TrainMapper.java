@@ -13,6 +13,8 @@ public interface TrainMapper {
 
     List<Train> select(Train train);
 
+    List<Train> selectAll();
+
     Train selectByTrainId(Long trainId);
 
     int delete(Long trainId);

@@ -4,20 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Train {
-    private Long trainId;
+public class DailyTrain {
+    private Long dailyTrainId;
+
+    private LocalDate date;
     private String code;
-    private Integer type;
+    private String type;
 
     private String startStation;
     private String startStationAbbrev;
-    private Integer startTime;
+    private LocalDateTime startTime;
 
     private String endStation;
     private String endStationAbbrev;
-    private Integer endTime;
+    private LocalDateTime endTime;
 }

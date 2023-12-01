@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuberose.clock.business.mapper.DailyTrainMapper">
+    <resultMap id="DailyTrainMap" type="com.tuberose.clock.business.entity.DailyTrain">
+        <id column="daily_train_id" jdbcType="BIGINT" property="dailyTrainId"/>
+        <result column="date" jdbcType="DATE" property="date"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="start_station" jdbcType="VARCHAR" property="startStation"/>
+        <result column="start_station_abbrev" jdbcType="VARCHAR" property="startStationAbbrev"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_station" jdbcType="VARCHAR" property="endStation"/>
+        <result column="end_station_abbrev" jdbcType="VARCHAR" property="endStationAbbrev"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.tuberose.clock.business.entity.DailyTrain" >
+        insert into daily_train
+        (train_id, date, code, type,
+        start_station, start_station_abbrev, start_time, end_station, end_station_abbrev, end_time)
+        values
+        (#{trainId}, #{date}, #{code}, #{type}, #{startStation}, #{startStationAbbrev},
+        #{startTime}, #{endStation}, #{endStationAbbrev}, #{endTime})
+    </insert>
+    <delete id="deleteByDateAndCode">
+        delete from daily_train where date = #{date} and code = #{code}
+    </delete>
+    <delete id="deleteByDate">
+        delete from daily_train where date = #{date}
+    </delete>
+
+
+</mapper>

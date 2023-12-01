@@ -9,10 +9,10 @@
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="start_station" jdbcType="VARCHAR" property="startStation"/>
         <result column="start_station_abbrev" jdbcType="VARCHAR" property="startStationAbbrev"/>
-        <result column="start_time" jdbcType="TIME" property="startTime"/>
+        <result column="start_time" jdbcType="INTEGER" property="startTime"/>
         <result column="end_station" jdbcType="VARCHAR" property="endStation"/>
         <result column="end_station_abbrev" jdbcType="VARCHAR" property="endStationAbbrev"/>
-        <result column="end_time" jdbcType="TIME" property="endTime"/>
+        <result column="end_time" jdbcType="INTEGER" property="endTime"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.tuberose.clock.business.entity.Train" >
@@ -47,6 +47,9 @@
     <select id="selectByTrainId" parameterType="Long"
             resultType="com.tuberose.clock.business.entity.Train" resultMap="TrainMap">
         select * from train where train_id = #{trainId}
+    </select>
+    <select id="selectAll" resultType="com.tuberose.clock.business.entity.Train">
+        select * from train
     </select>
 
 </mapper>

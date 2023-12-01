@@ -17,4 +17,7 @@
         insert into seat (seat_id, train_code, carriage_index, type, `row`, `col`, number)
             values (#{seatId}, #{trainCode}, #{carriageIndex}, #{type}, #{row}, #{col}, #{number})
     </insert>
+    <select id="selectByTrainCodeAndCarriageIndex" resultType="com.tuberose.clock.business.entity.Seat">
+        select * from seat where train_code = #{trainCode} and carriage_index = #{carriageIndex}
+    </select>
 </mapper>

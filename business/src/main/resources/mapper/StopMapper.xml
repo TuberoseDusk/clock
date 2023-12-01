@@ -8,8 +8,8 @@
         <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
         <result column="index" jdbcType="INTEGER" property="index"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="arrival_time" jdbcType="TIME" property="arrivalTime"/>
-        <result column="departure_time" jdbcType="TIME" property="departureTime"/>
+        <result column="arrival_time" jdbcType="INTEGER" property="arrivalTime"/>
+        <result column="departure_time" jdbcType="INTEGER" property="departureTime"/>
     </resultMap>
     <insert id="insert" parameterType="com.tuberose.clock.business.entity.Stop">
         insert into stop (stop_id, train_code, `index`, name, arrival_time, departure_time)
