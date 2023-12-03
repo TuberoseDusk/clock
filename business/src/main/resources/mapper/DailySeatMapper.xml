@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tuberose.clock.business.mapper.DailySeatMapper">
-    <resultMap id="SeatMap" type="com.tuberose.clock.business.entity.DailySeat">
+    <resultMap id="DailySeatMap" type="com.tuberose.clock.business.entity.DailySeat">
         <id column="daily_seat_id" jdbcType="BIGINT" property="dailySeatId"/>
         <result column="date" jdbcType="DATE" property="date"/>
         <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
@@ -18,11 +18,27 @@
         insert into daily_seat (daily_seat_id, date, train_code, carriage_index, type, `row`, `col`, number, state)
         values (#{dailySeatId}, #{date}, #{trainCode}, #{carriageIndex}, #{type}, #{row}, #{col}, #{number}, #{state})
     </insert>
+    <update id="updateState">
+        update daily_seat set state = #{state} where daily_seat_id = #{dailySeatId}
+    </update>
     <delete id="deleteByDateAndTrainCodeAndCarriageIndexInt">
         delete from daily_seat where date = #{date} and train_code = #{trainCode} and carriage_index = #{carriageIndex}
     </delete>
     <select id="countByDateAndTrainCodeAndTypeAndState" resultType="java.lang.Integer">
         select count(*) from daily_seat
             where date = #{date} and train_code = #{trainCode} and type = #{type} and state like #{pattern}
+    </select>
+    <select id="selectOneByDateAndTrainCodeAndTypeAndColAndState"
+            resultType="com.tuberose.clock.business.entity.DailySeat"
+            resultMap="DailySeatMap">
+        select * from daily_seat
+            <where>
+                <if test="date != null"> date = #{date} </if>
+                <if test="trainCode != null"> and train_code = #{trainCode} </if>
+                <if test="type != null"> and type = #{type} </if>
+                <if test="col != null"> and col = #{col}</if>
+                <if test="pattern != null"> and state like #{pattern}</if>
+            </where>
+            limit 1;
     </select>
 </mapper>

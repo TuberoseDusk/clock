@@ -21,7 +21,8 @@ public class LoginFilter implements Ordered, GlobalFilter {
     static {
         whiteList.add("/user/welcome");
         whiteList.add("/user/test/hello");
-        whiteList.add("/business");
+        whiteList.add("/business/admin");
+        whiteList.add("/business/ticket/query");
         whiteList.add("/dispatch");
     }
 

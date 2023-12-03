@@ -35,6 +35,9 @@ public enum ErrorCodeEnum {
     CARRIAGE_EXIST(2301, "车厢已存在"),
     ILLEGAL_CARRIAGE_INDEX(2302, "车厢编号非法"),
 
+    TRAIN_SECTION_NOT_EXIST(2401, "线路不存在"),
+    TICKET_SOLD_OUT(2402, "车票售罄"),
+
     SCHEDULER_ERROR(3001, "调度器异常"),
     JOB_NOT_EXIST(3002, "任务不存在"),
 

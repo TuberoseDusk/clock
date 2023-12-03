@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SectionService {
     List<DailySection> query(LocalDate date, String startStop, String endStop);
+
+    DailySection queryByDateAndTrainCode(LocalDate date, String trainCode, String startStop, String endStop);
 }

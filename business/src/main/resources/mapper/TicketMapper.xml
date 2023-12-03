@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuberose.clock.business.mapper.TicketMapper">
+    <resultMap id="TicketMap" type="com.tuberose.clock.business.entity.Ticket">
+        <id column="ticket_id" jdbcType="BIGINT" property="ticketId"/>
+
+        <result column="order_id" jdbcType="BIGINT" property="orderId"/>
+        <result column="passenger_id" jdbcType="BIGINT" property="passengerId"/>
+
+        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="carriage_index" jdbcType="INTEGER" property="carriageIndex"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="row" jdbcType="CHAR" property="row"/>
+        <result column="col" jdbcType="CHAR" property="col"/>
+
+        <result column="start_stop" jdbcType="VARCHAR" property="startStop"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+
+        <result column="end_stop" jdbcType="VARCHAR" property="endStop"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.tuberose.clock.business.entity.Ticket">
+        insert into ticket (ticket_id, order_id, passenger_id, train_code, carriage_index, type,
+            `row`, `col`, start_stop, start_time, end_stop, end_time, price, state)
+            values (#{ticketId}, #{orderId}, #{passengerId}, #{trainCode}, #{carriageIndex}, #{type}, #{row}, #{col},
+            #{startStop}, #{startTime}, #{endStop}, #{endTime}, #{price}, #{state})
+    </insert>
+    <update id="updateStateByTicketId">
+        update ticket set state = #{state} where ticket_id = #{ticketId}
+    </update>
+    <select id="selectByOrderIdOrderByStartTimeDesc"
+            resultType="com.tuberose.clock.business.entity.Ticket"
+            resultMap="TicketMap">
+        select * from ticket where order_id = #{orderId} order by start_time desc
+    </select>
+    <select id="selectByPassengerIdOrderByStartTimeDesc"
+            resultType="com.tuberose.clock.business.entity.Ticket"
+            resultMap="TicketMap">
+        select * from ticket where passenger_id = #{passengerId} order by start_time desc
+    </select>
+</mapper>

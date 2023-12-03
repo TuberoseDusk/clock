@@ -15,5 +15,8 @@ public interface DailyStopMapper {
 
     int countByDateAndTrainCode(LocalDate date, String trainCode);
 
+    // 按照实际出发日期查询，而非发车日期
     List<DailySection> selectDailySection(LocalDate date, String startStop, String endStop);
+
+    DailySection selectDailySectionByTrainCode(LocalDate date, String trainCode, String startStop, String endStop);
 }
