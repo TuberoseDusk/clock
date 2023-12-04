@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 192.168.1.106:8848
+      config:
+        file-extension: properties
+        namespace: 40736023-7c35-4862-9eff-e11862a6721c
+        username: nacos
+        password: nacos
+        group: DEFAULT_GROUP
+      discovery:
+        namespace: 40736023-7c35-4862-9eff-e11862a6721c
+        username: nacos
+        password: nacos
+        group: DEFAULT_GROUP
+  profiles:
+    active: dev
+  application:
+    name: user

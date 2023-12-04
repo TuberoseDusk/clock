@@ -5,14 +5,14 @@ spring:
     gateway:
       routes:
         - id: user
-          uri: http://127.0.0.1:7701
+          uri: lb://user
           predicates:
             - Path=/user/**
         - id: business
-          uri: http://127.0.0.1:7702
+          uri: lb://business
           predicates:
             - Path=/business/**
         - id: dispatch
-          uri: http://127.0.0.1:7703
+          uri: lb://dispatch
           predicates:
             - Path=/dispatch/**
