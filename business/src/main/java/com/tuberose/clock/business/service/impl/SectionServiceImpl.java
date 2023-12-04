@@ -1,19 +1,27 @@
 package com.tuberose.clock.business.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.tuberose.clock.business.entity.DailySection;
 import com.tuberose.clock.business.enums.CarriageTypeEnum;
 import com.tuberose.clock.business.mapper.DailySeatMapper;
 import com.tuberose.clock.business.mapper.DailyStopMapper;
 import com.tuberose.clock.business.service.SectionService;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class SectionServiceImpl implements SectionService {
+    @Resource
+    private RedisTemplate<String, DailySection> redisTemplate;
 
     @Resource
     private DailyStopMapper dailyStopMapper;
@@ -38,6 +46,16 @@ public class SectionServiceImpl implements SectionService {
     }
 
     private void querySectionSeatCount(DailySection dailySection) {
+        String key = dailySection.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE)
+                + " " + dailySection.getTrainCode()
+                + ":" + dailySection.getStartStop() + "-" + dailySection.getEndStop();
+        DailySection cachedDailySection = redisTemplate.opsForValue().get(key);
+        if (cachedDailySection != null) {
+            BeanUtil.copyProperties(cachedDailySection, dailySection);
+            log.info("DailySection Cache HIT");
+            return;
+        }
+
         String pattern = "_".repeat(dailySection.getStartStopIndex())
                 + "0".repeat(dailySection.getEndStopIndex() - dailySection.getStartStopIndex()) + "%";
         Integer firstClassSeatCount = dailySeatMapper.countByDateAndTrainCodeAndTypeAndState(dailySection.getDate(),
@@ -50,5 +68,7 @@ public class SectionServiceImpl implements SectionService {
         // TODO 定价策略
         dailySection.setFirstClassSeatPrice(new BigDecimal("500"));
         dailySection.setSecondClassSeatPrice(new BigDecimal("200"));
+
+        redisTemplate.opsForValue().set(key, dailySection, 5, TimeUnit.MINUTES);
     }
 }
