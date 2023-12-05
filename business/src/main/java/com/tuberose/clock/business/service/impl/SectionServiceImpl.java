@@ -45,6 +45,24 @@ public class SectionServiceImpl implements SectionService {
         return dailySection;
     }
 
+    @Override
+    public void clearCache(LocalDate date, String trainCode, String startStop, String endStop) {
+        String key = date.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + trainCode + ":"
+                + startStop + "-" + endStop;
+        redisTemplate.delete(key);
+    }
+
+    @Override
+    public void updateCache(DailySection dailySection) {
+        String key = dailySection.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE)
+                + " " + dailySection.getTrainCode()
+                + ":" + dailySection.getStartStop() + "-" + dailySection.getEndStop();
+        if (Boolean.TRUE.equals(redisTemplate.hasKey(key))) {
+            redisTemplate.opsForValue().set(key, dailySection);
+            log.info("DailySection Cache UPDATE" + key + ": {}", dailySection);
+        }
+    }
+
     private void querySectionSeatCount(DailySection dailySection) {
         String key = dailySection.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE)
                 + " " + dailySection.getTrainCode()
@@ -52,7 +70,7 @@ public class SectionServiceImpl implements SectionService {
         DailySection cachedDailySection = redisTemplate.opsForValue().get(key);
         if (cachedDailySection != null) {
             BeanUtil.copyProperties(cachedDailySection, dailySection);
-            log.info("DailySection Cache HIT");
+            log.info("DailySection Cache HIT " + key + ": {}", cachedDailySection);
             return;
         }
 
@@ -70,5 +88,6 @@ public class SectionServiceImpl implements SectionService {
         dailySection.setSecondClassSeatPrice(new BigDecimal("200"));
 
         redisTemplate.opsForValue().set(key, dailySection, 5, TimeUnit.MINUTES);
+        log.info("DailySection Cache MISS " + key + ": {}", dailySection);
     }
 }

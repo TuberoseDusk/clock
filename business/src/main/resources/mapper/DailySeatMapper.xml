@@ -24,6 +24,9 @@
     <delete id="deleteByDateAndTrainCodeAndCarriageIndexInt">
         delete from daily_seat where date = #{date} and train_code = #{trainCode} and carriage_index = #{carriageIndex}
     </delete>
+    <delete id="deleteByDate">
+        delete from daily_seat where date = #{date}
+    </delete>
     <select id="countByDateAndTrainCodeAndTypeAndState" resultType="java.lang.Integer">
         select count(*) from daily_seat
             where date = #{date} and train_code = #{trainCode} and type = #{type} and state like #{pattern}

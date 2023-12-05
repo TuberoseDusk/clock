@@ -3,13 +3,11 @@ package com.tuberose.clock.business.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.tuberose.clock.business.entity.DailyTrain;
 import com.tuberose.clock.business.entity.Train;
-import com.tuberose.clock.business.mapper.DailyCarriageMapper;
 import com.tuberose.clock.business.mapper.DailyTrainMapper;
 import com.tuberose.clock.business.mapper.TrainMapper;
 import com.tuberose.clock.business.service.DailyCarriageService;
 import com.tuberose.clock.business.service.DailyStopService;
 import com.tuberose.clock.business.service.DailyTrainService;
-import com.tuberose.clock.business.service.StopService;
 import com.tuberose.clock.common.util.Snowflake;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -67,5 +65,12 @@ public class DailyTrainServiceImpl implements DailyTrainService {
         for (Train train : trains) {
             generate(date, train);
         }
+    }
+
+    @Override
+    public void deleteAll(LocalDate date) {
+        dailyTrainMapper.deleteByDate(date);
+        dailyStopService.deleteAll(date);
+        dailyCarriageService.deleteAll(date);
     }
 }

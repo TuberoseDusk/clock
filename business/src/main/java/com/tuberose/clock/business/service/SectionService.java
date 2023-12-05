@@ -9,4 +9,8 @@ public interface SectionService {
     List<DailySection> query(LocalDate date, String startStop, String endStop);
 
     DailySection queryByDateAndTrainCode(LocalDate date, String trainCode, String startStop, String endStop);
+
+    void clearCache(LocalDate date, String trainCode, String startStop, String endStop);
+
+    void updateCache(DailySection dailySection);
 }

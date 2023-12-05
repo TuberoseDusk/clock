@@ -48,4 +48,9 @@ public class DailyStopServiceImpl implements DailyStopService {
             dailyStopMapper.insert(dailyStop);
         }
     }
+
+    @Override
+    public void deleteAll(LocalDate date) {
+        dailyStopMapper.deleteByDate(date);
+    }
 }

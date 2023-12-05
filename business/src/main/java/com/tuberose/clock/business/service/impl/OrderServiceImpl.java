@@ -15,6 +15,7 @@ import com.tuberose.clock.business.service.TicketService;
 import com.tuberose.clock.common.context.UserHolder;
 import com.tuberose.clock.common.enums.ErrorCodeEnum;
 import com.tuberose.clock.common.exception.BusinessException;
+import com.tuberose.clock.common.response.PageRes;
 import com.tuberose.clock.common.util.Snowflake;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -88,6 +89,12 @@ public class OrderServiceImpl implements OrderService {
                     + "1".repeat(dailySection.getEndStopIndex() - dailySection.getStartStopIndex())
                     + seatState.substring(dailySection.getEndStopIndex());
             dailySeatMapper.updateState(dailySeat.getDailySeatId(), newSeatState);
+
+            switch (ticketSubmissionReq.getType()) {
+                case 1 -> dailySection.setFirstClassSeatCount(dailySection.getFirstClassSeatCount() - 1);
+                case 2 -> dailySection.setSecondClassSeatCount(dailySection.getSecondClassSeatCount() - 1);
+            }
+            sectionService.updateCache(dailySection);
 
             // 新增购票记录
             Ticket ticket = new Ticket();

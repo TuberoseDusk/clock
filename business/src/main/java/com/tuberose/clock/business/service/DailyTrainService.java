@@ -9,4 +9,6 @@ public interface DailyTrainService {
     void generate(LocalDate date, Train train);
 
     void generateAll(LocalDate date);
+
+    void deleteAll(LocalDate date);
 }

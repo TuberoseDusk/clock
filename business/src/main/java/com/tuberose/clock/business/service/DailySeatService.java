@@ -6,4 +6,6 @@ import java.time.LocalDate;
 
 public interface DailySeatService {
     void generate(DailyCarriage dailyCarriage);
+
+    void deleteAll(LocalDate date);
 }

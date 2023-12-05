@@ -4,10 +4,7 @@ import com.tuberose.clock.business.service.DailyTrainService;
 import com.tuberose.clock.common.response.BaseRes;
 import jakarta.annotation.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
@@ -21,6 +18,12 @@ public class DailyTrainAdminController {
     @PostMapping("/generate/{date}")
     public BaseRes<Void> generate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         dailyTrainService.generateAll(date);
+        return BaseRes.success();
+    }
+
+    @DeleteMapping("/delete/{date}")
+    public BaseRes<Void> delete(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        dailyTrainService.deleteAll(date);
         return BaseRes.success();
     }
 }

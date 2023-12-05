@@ -9,5 +9,7 @@ import java.time.LocalDate;
 public interface DailyCarriageMapper {
     int deleteByDateAndTrainCode(LocalDate date, String trainCode);
 
+    int deleteByDate(LocalDate date);
+
     int insert(DailyCarriage dailyCarriage);
 }

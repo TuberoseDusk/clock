@@ -42,4 +42,10 @@ public class DailyCarriageServiceImpl implements DailyCarriageService {
             dailySeatService.generate(dailyCarriage);
         }
     }
+
+    @Override
+    public void deleteAll(LocalDate date) {
+        dailyCarriageMapper.deleteByDate(date);
+        dailySeatService.deleteAll(date);
+    }
 }

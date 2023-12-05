@@ -17,4 +17,7 @@
     <delete id="deleteByDateAndTrainCode">
         delete from daily_carriage where date = #{date} and train_code = #{trainCode}
     </delete>
+    <delete id="deleteByDate">
+        delete from daily_carriage where date = #{date}
+    </delete>
 </mapper>

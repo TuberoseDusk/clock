@@ -11,6 +11,8 @@ import java.util.List;
 public interface DailyStopMapper {
     int deleteByDateAndTrainCode(LocalDate date, String trainCode);
 
+    int deleteByDate(LocalDate date);
+
     int insert(DailyStop dailyStop);
 
     int countByDateAndTrainCode(LocalDate date, String trainCode);
