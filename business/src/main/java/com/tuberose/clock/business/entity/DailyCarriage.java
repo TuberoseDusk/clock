@@ -12,8 +12,8 @@ import java.time.LocalDate;
 public class DailyCarriage {
     private Long dailyCarriageId;
 
-    private LocalDate date;
-    private String trainCode;
+    private Long dailyTrainId;
+
     private Integer index;
 
     private Integer type;

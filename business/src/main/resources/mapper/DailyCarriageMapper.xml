@@ -5,19 +5,24 @@
 <mapper namespace="com.tuberose.clock.business.mapper.DailyCarriageMapper">
     <resultMap id="DailyCarriageMap" type="com.tuberose.clock.business.entity.DailyCarriage">
         <id column="daily_carriage_id" jdbcType="BIGINT" property="dailyCarriageId"/>
-        <result column="date" jdbcType="DATE" property="date"/>
-        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="daily_train_id" jdbcType="BIGINT" property="dailyTrainId"/>
         <result column="index" jdbcType="INTEGER" property="index"/>
         <result column="type" jdbcType="INTEGER" property="type"/>
     </resultMap>
     <insert id="insert">
-        insert into daily_carriage (daily_carriage_id, date, train_code, `index`, type)
-            values (#{dailyCarriageId}, #{date}, #{trainCode}, #{index}, #{type})
+        insert into daily_carriage (daily_carriage_id, daily_train_id, `index`, type)
+            values (#{dailyCarriageId}, #{dailyTrainId}, #{index}, #{type})
     </insert>
-    <delete id="deleteByDateAndTrainCode">
-        delete from daily_carriage where date = #{date} and train_code = #{trainCode}
+    <delete id="deleteByDailyTrainId">
+        delete from daily_carriage where daily_train_id = #{dailyTrainId}
     </delete>
-    <delete id="deleteByDate">
-        delete from daily_carriage where date = #{date}
-    </delete>
+    <select id="selectByDailyTrainIdAndType"
+            resultType="com.tuberose.clock.business.entity.DailyCarriage"
+            resultMap="DailyCarriageMap">
+        select * from daily_carriage where daily_train_id = #{dailyTrainId} and type = #{type}
+    </select>
+    <select id="selectByDailyTrainId" resultType="com.tuberose.clock.business.entity.DailyCarriage"
+            resultMap="DailyCarriageMap">
+        select * from daily_carriage where daily_train_id = #{dailyTrainId}
+    </select>
 </mapper>

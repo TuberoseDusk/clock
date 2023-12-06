@@ -38,7 +38,8 @@ public class DailyTrainServiceImpl implements DailyTrainService {
 
     @Override
     @Transactional
-    public void generate(LocalDate date, Train train) {
+    public void generate(LocalDate date, Long trainId) {
+        Train train = trainMapper.selectByTrainId(trainId);
         dailyTrainMapper.deleteByDateAndCode(date, train.getCode());
 
         DailyTrain dailyTrain = BeanUtil.copyProperties(train, DailyTrain.class, "startTime", "endTime");
@@ -46,15 +47,17 @@ public class DailyTrainServiceImpl implements DailyTrainService {
         dailyTrain.setDate(date);
 
         long timeStamp = date.toEpochSecond(LocalTime.of(0, 0, 0), ZoneOffset.UTC);
-        LocalDateTime startTime = LocalDateTime.ofEpochSecond(timeStamp + train.getStartTime(), 0, ZoneOffset.UTC);
-        LocalDateTime endTime = LocalDateTime.ofEpochSecond(timeStamp + train.getEndTime(), 0, ZoneOffset.UTC);
+        LocalDateTime startTime = LocalDateTime.ofEpochSecond(timeStamp + train.getStartTime(),
+                0, ZoneOffset.UTC);
+        LocalDateTime endTime = LocalDateTime.ofEpochSecond(timeStamp + train.getEndTime(),
+                0, ZoneOffset.UTC);
         dailyTrain.setStartTime(startTime);
         dailyTrain.setEndTime(endTime);
 
         dailyTrainMapper.insert(dailyTrain);
 
-        dailyStopService.generate(date, train.getCode());
-        dailyCarriageService.generate(date, train.getCode());
+        dailyStopService.generateByDailyTrain(dailyTrain);
+        dailyCarriageService.generateByDailyTrain(dailyTrain);
     }
 
     @Override
@@ -63,14 +66,23 @@ public class DailyTrainServiceImpl implements DailyTrainService {
         dailyTrainMapper.deleteByDate(date);
         List<Train> trains = trainMapper.selectAll();
         for (Train train : trains) {
-            generate(date, train);
+            generate(date, train.getTrainId());
         }
     }
 
     @Override
+    @Transactional
     public void deleteAll(LocalDate date) {
+        List<DailyTrain> dailyTrains = dailyTrainMapper.selectByDate(date);
+        for (DailyTrain dailyTrain : dailyTrains) {
+            dailyStopService.deleteByDailyTrainId(dailyTrain.getDailyTrainId());
+            dailyCarriageService.deleteByDailyTrainId(dailyTrain.getDailyTrainId());
+        }
         dailyTrainMapper.deleteByDate(date);
-        dailyStopService.deleteAll(date);
-        dailyCarriageService.deleteAll(date);
+    }
+
+    @Override
+    public DailyTrain queryByDailyTrainId(Long dailyTrainId) {
+        return dailyTrainMapper.selectByDailyTrainId(dailyTrainId);
     }
 }

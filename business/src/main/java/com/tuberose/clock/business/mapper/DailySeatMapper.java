@@ -10,14 +10,11 @@ public interface DailySeatMapper {
 
     int insert(DailySeat dailySeat);
 
-    int deleteByDateAndTrainCodeAndCarriageIndexInt(LocalDate date, String trainCode, Integer carriageIndex);
+    int deleteByDailyCarriageId(Long dailyCarriageId);
 
-    int deleteByDate(LocalDate date);
+    int countByDailyTrainIdAndTypeAndState(Long dailyTrainId, Integer type, String pattern);
 
-    int countByDateAndTrainCodeAndTypeAndState(LocalDate date, String trainCode, Integer type, String pattern);
-
-    DailySeat selectOneByDateAndTrainCodeAndTypeAndColAndState(LocalDate date, String trainCode,
-                                                               Integer type, String col, String pattern);
+    DailySeat selectOneByDailyCarriageIdAndColAndState(Long dailyCarriageId, Integer type, String col, String pattern);
 
     Integer updateState(Long dailySeatId, String state);
 }

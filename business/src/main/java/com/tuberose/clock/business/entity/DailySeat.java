@@ -12,10 +12,7 @@ import java.time.LocalDate;
 public class DailySeat {
     private Long dailySeatId;
 
-    private LocalDate date;
-    private String trainCode;
-    private Integer carriageIndex;
-    private Integer type;
+    private Long dailyCarriageId;
 
     private String row;
     private String col;

@@ -2,9 +2,12 @@ package com.tuberose.clock.business.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.tuberose.clock.business.entity.DailySection;
+import com.tuberose.clock.business.entity.DailyTrain;
 import com.tuberose.clock.business.enums.CarriageTypeEnum;
+import com.tuberose.clock.business.enums.RedisKeyEnum;
 import com.tuberose.clock.business.mapper.DailySeatMapper;
 import com.tuberose.clock.business.mapper.DailyStopMapper;
+import com.tuberose.clock.business.mapper.DailyTrainMapper;
 import com.tuberose.clock.business.service.SectionService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -29,33 +32,44 @@ public class SectionServiceImpl implements SectionService {
     @Resource
     private DailySeatMapper dailySeatMapper;
 
+    @Resource
+    private DailyTrainMapper dailyTrainMapper;
+
     @Override
     public List<DailySection> query(LocalDate date, String startStop, String endStop) {
         List<DailySection> dailySections = dailyStopMapper.selectDailySection(date, startStop, endStop);
         for (DailySection dailySection : dailySections) {
-            querySectionSeatCount(dailySection);
+            fillSectionSeat(dailySection);
         }
         return dailySections;
     }
 
     @Override
-    public DailySection queryByDateAndTrainCode(LocalDate date, String trainCode, String startStop, String endStop) {
-        DailySection dailySection = dailyStopMapper.selectDailySectionByTrainCode(date, trainCode, startStop, endStop);
-        querySectionSeatCount(dailySection);
+    public DailySection queryByDailyTrainId(Long dailyTrainId, String startStop, String endStop) {
+        String key = RedisKeyEnum.DAILY_SECTION_CACHE.getKeyPrefix() + dailyTrainId + ":"
+                + startStop + "-" + endStop;
+        DailySection dailySection = redisTemplate.opsForValue().get(key);
+        if (dailySection != null) {
+            log.info("DailySection Cache HIT " + key + ": {}", dailySection);
+            return dailySection;
+        }
+
+        dailySection = dailyStopMapper.selectDailySectionByDailyTrainId(dailyTrainId, startStop, endStop);
+        fillSectionSeat(dailySection);
         return dailySection;
     }
 
     @Override
-    public void clearCache(LocalDate date, String trainCode, String startStop, String endStop) {
-        String key = date.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + trainCode + ":"
-                + startStop + "-" + endStop;
+    public void clearCache(Long dailyTrainId, String startStop, String endStop) {
+        String key = RedisKeyEnum.DAILY_SECTION_CACHE.getKeyPrefix()
+                + dailyTrainId + ":" + startStop + "-" + endStop;
         redisTemplate.delete(key);
     }
 
     @Override
     public void updateCache(DailySection dailySection) {
-        String key = dailySection.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE)
-                + " " + dailySection.getTrainCode()
+        String key = RedisKeyEnum.DAILY_SECTION_CACHE.getKeyPrefix()
+                + dailySection.getDailyTrainId()
                 + ":" + dailySection.getStartStop() + "-" + dailySection.getEndStop();
         if (Boolean.TRUE.equals(redisTemplate.hasKey(key))) {
             redisTemplate.opsForValue().set(key, dailySection);
@@ -63,9 +77,9 @@ public class SectionServiceImpl implements SectionService {
         }
     }
 
-    private void querySectionSeatCount(DailySection dailySection) {
-        String key = dailySection.getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE)
-                + " " + dailySection.getTrainCode()
+    private void fillSectionSeat(DailySection dailySection) {
+        String key = RedisKeyEnum.DAILY_SECTION_CACHE.getKeyPrefix()
+                + dailySection.getDailyTrainId()
                 + ":" + dailySection.getStartStop() + "-" + dailySection.getEndStop();
         DailySection cachedDailySection = redisTemplate.opsForValue().get(key);
         if (cachedDailySection != null) {
@@ -74,12 +88,17 @@ public class SectionServiceImpl implements SectionService {
             return;
         }
 
+        DailyTrain dailyTrain = dailyTrainMapper.selectByDailyTrainId(dailySection.getDailyTrainId());
+        dailySection.setDailyTrainId(dailySection.getDailyTrainId());
+        dailySection.setTrainCode(dailyTrain.getCode());
+
         String pattern = "_".repeat(dailySection.getStartStopIndex())
                 + "0".repeat(dailySection.getEndStopIndex() - dailySection.getStartStopIndex()) + "%";
-        Integer firstClassSeatCount = dailySeatMapper.countByDateAndTrainCodeAndTypeAndState(dailySection.getDate(),
-                dailySection.getTrainCode(), CarriageTypeEnum.FIRST_CLASS_CARRIAGE.getCode(), pattern);
-        Integer secondClassSeatCount = dailySeatMapper.countByDateAndTrainCodeAndTypeAndState(dailySection.getDate(),
-                dailySection.getTrainCode(), CarriageTypeEnum.SECOND_CLASS_CARRIAGE.getCode(), pattern);
+        Integer firstClassSeatCount = dailySeatMapper.countByDailyTrainIdAndTypeAndState(dailyTrain.getDailyTrainId(),
+                CarriageTypeEnum.FIRST_CLASS_CARRIAGE.getCode(), pattern);
+        Integer secondClassSeatCount = dailySeatMapper.countByDailyTrainIdAndTypeAndState(dailyTrain.getDailyTrainId(),
+                CarriageTypeEnum.SECOND_CLASS_CARRIAGE.getCode(), pattern);
+
         dailySection.setFirstClassSeatCount(firstClassSeatCount);
         dailySection.setSecondClassSeatCount(secondClassSeatCount);
 
@@ -87,7 +106,7 @@ public class SectionServiceImpl implements SectionService {
         dailySection.setFirstClassSeatPrice(new BigDecimal("500"));
         dailySection.setSecondClassSeatPrice(new BigDecimal("200"));
 
-        redisTemplate.opsForValue().set(key, dailySection, 5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(key, dailySection);
         log.info("DailySection Cache MISS " + key + ": {}", dailySection);
     }
 }

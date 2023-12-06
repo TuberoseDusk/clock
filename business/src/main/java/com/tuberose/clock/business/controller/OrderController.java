@@ -1,9 +1,11 @@
 package com.tuberose.clock.business.controller;
 
+import com.tuberose.clock.business.request.OrderSubmissionReq;
 import com.tuberose.clock.business.request.TicketSubmissionReq;
 import com.tuberose.clock.business.service.OrderService;
 import com.tuberose.clock.common.response.BaseRes;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +21,8 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/submit")
-    public BaseRes<Void> submit(@RequestBody List<TicketSubmissionReq> ticketSubmissionReqs) {
-        orderService.submit(ticketSubmissionReqs);
+    public BaseRes<Void> submit(@Valid @RequestBody OrderSubmissionReq orderSubmissionReq) {
+        orderService.submit(orderSubmissionReq);
         return BaseRes.success();
     }
 }

@@ -5,8 +5,7 @@
 <mapper namespace="com.tuberose.clock.business.mapper.DailyStopMapper">
     <resultMap id="DailyStopMap" type="com.tuberose.clock.business.entity.DailyStop">
         <id column="daily_stop_id" jdbcType="BIGINT" property="dailyStopId"/>
-        <result column="date" jdbcType="DATE" property="date"/>
-        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="daily_train_id" jdbcType="BIGINT" property="dailyTrainId"/>
         <result column="index" jdbcType="INTEGER" property="index"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="arrival_time" jdbcType="TIMESTAMP" property="arrivalTime"/>
@@ -14,8 +13,7 @@
     </resultMap>
 
     <resultMap id="DailySectionMap" type="com.tuberose.clock.business.entity.DailySection">
-        <result column="date" jdbcType="TIMESTAMP" property="date"/>
-        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
+        <result column="daily_train_id" jdbcType="VARCHAR" property="dailyTrainId"/>
         <result column="start_stop" jdbcType="VARCHAR" property="startStop"/>
         <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
         <result column="start_stop_index" jdbcType="INTEGER" property="startStopIndex"/>
@@ -25,40 +23,39 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.tuberose.clock.business.entity.DailyStop">
-        insert into daily_stop (daily_stop_id, date, train_code, `index`, name, arrival_time, departure_time)
+        insert into daily_stop (daily_stop_id, daily_train_id, `index`, name, arrival_time, departure_time)
             values
-            (#{dailyStopId}, #{date}, #{trainCode}, #{index}, #{name}, #{arrivalTime}, #{departureTime})
+            (#{dailyStopId}, #{dailyTrainId}, #{index}, #{name}, #{arrivalTime}, #{departureTime})
     </insert>
     <delete id="deleteByDateAndTrainCode">
         delete from daily_stop where date = #{date} and train_code = #{trainCode}
     </delete>
-    <delete id="deleteByDate">
-        delete from daily_stop where date = #{date}
+    <delete id="deleteByDailyTrainId">
+        delete from daily_stop where daily_train_id = #{dailyTrainId}
     </delete>
-    <select id="countByDateAndTrainCode" resultType="java.lang.Integer">
-        select count(*) from daily_stop where date = #{date} and train_code = #{trainCode}
+    <select id="countByDailyTrainId" resultType="java.lang.Integer">
+        select count(*) from daily_stop where daily_train_id = #{dailyTrainId}
     </select>
     <select id="selectDailySection"
             resultType="com.tuberose.clock.business.entity.DailySection"
             resultMap="DailySectionMap">
-        select t1.date as date, t1.train_code as train_code,
+        select t1.daily_train_id as daily_train_id,
             t1.name as start_stop, t1.departure_time as start_time, t1.index as start_stop_index,
             t2.name as end_stop, t2.arrival_time as end_time, t2.index as end_stop_index  from
             (select * from daily_stop where DATE(departure_time) = #{date} and name = #{startStop}) as t1
             join (select * from daily_stop where name = #{endStop}) as t2
-            on t1.date = t2.date and t1.train_code = t2.train_code
+            on t1.daily_train_id = t2.daily_train_id
             where t1.index &lt; t2.index
     </select>
-    <select id="selectDailySectionByTrainCode"
+    <select id="selectDailySectionByDailyTrainId"
             resultType="com.tuberose.clock.business.entity.DailySection"
             resultMap="DailySectionMap">
-        select t1.date as date, t1.train_code as train_code,
+        select t1.daily_train_id as daily_train_id,
             t1.name as start_stop, t1.departure_time as start_time, t1.index as start_stop_index,
             t2.name as end_stop, t2.arrival_time as end_time, t2.index as end_stop_index from
-            (select * from daily_stop where DATE(departure_time) = #{date} and train_code = #{trainCode}
-            and name = #{startStop}) as t1
-            join (select * from daily_stop where train_code = #{trainCode} and name = #{endStop}) as t2
-        on t1.date = t2.date and t1.train_code = t2.train_code
+            (select * from daily_stop where daily_train_id = #{dailyTrainId} and name = #{startStop}) as t1
+            join (select * from daily_stop where daily_train_id = #{dailyTrainId} and name = #{endStop}) as t2
+        on t1.daily_train_id = t2.daily_train_id
         where t1.index &lt; t2.index
     </select>
 </mapper>

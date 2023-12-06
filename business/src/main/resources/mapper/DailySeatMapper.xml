@@ -5,43 +5,37 @@
 <mapper namespace="com.tuberose.clock.business.mapper.DailySeatMapper">
     <resultMap id="DailySeatMap" type="com.tuberose.clock.business.entity.DailySeat">
         <id column="daily_seat_id" jdbcType="BIGINT" property="dailySeatId"/>
-        <result column="date" jdbcType="DATE" property="date"/>
-        <result column="train_code" jdbcType="VARCHAR" property="trainCode"/>
-        <result column="carriage_index" jdbcType="INTEGER" property="carriageIndex"/>
-        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="daily_carriage_id" jdbcType="BIGINT" property="dailyCarriageId"/>
         <result column="row" jdbcType="CHAR" property="row"/>
         <result column="col" jdbcType="CHAR" property="col"/>
         <result column="number" jdbcType="INTEGER" property="number"/>
         <result column="state" jdbcType="VARCHAR" property="state"/>
     </resultMap>
     <insert id="insert">
-        insert into daily_seat (daily_seat_id, date, train_code, carriage_index, type, `row`, `col`, number, state)
-        values (#{dailySeatId}, #{date}, #{trainCode}, #{carriageIndex}, #{type}, #{row}, #{col}, #{number}, #{state})
+        insert into daily_seat (daily_seat_id, daily_carriage_id, `row`, `col`, number, state)
+        values (#{dailySeatId}, #{dailyCarriageId}, #{row}, #{col}, #{number}, #{state})
     </insert>
     <update id="updateState">
         update daily_seat set state = #{state} where daily_seat_id = #{dailySeatId}
     </update>
-    <delete id="deleteByDateAndTrainCodeAndCarriageIndexInt">
-        delete from daily_seat where date = #{date} and train_code = #{trainCode} and carriage_index = #{carriageIndex}
+    <delete id="deleteByDailyCarriageId">
+        delete from daily_seat where daily_carriage_id = #{dailyCarriageId}
     </delete>
-    <delete id="deleteByDate">
-        delete from daily_seat where date = #{date}
-    </delete>
-    <select id="countByDateAndTrainCodeAndTypeAndState" resultType="java.lang.Integer">
+    <select id="countByDailyTrainIdAndTypeAndState" resultType="java.lang.Integer">
         select count(*) from daily_seat
-            where date = #{date} and train_code = #{trainCode} and type = #{type} and state like #{pattern}
+            where daily_carriage_id in
+            (select daily_carriage_id from daily_carriage where daily_train_id = #{dailyTrainId} and type = #{type})
+            and state like #{pattern}
     </select>
-    <select id="selectOneByDateAndTrainCodeAndTypeAndColAndState"
+    <select id="selectOneByDailyCarriageIdAndColAndState"
             resultType="com.tuberose.clock.business.entity.DailySeat"
             resultMap="DailySeatMap">
         select * from daily_seat
             <where>
-                <if test="date != null"> date = #{date} </if>
-                <if test="trainCode != null"> and train_code = #{trainCode} </if>
-                <if test="type != null"> and type = #{type} </if>
-                <if test="col != null"> and col = #{col}</if>
+                <if test="dailyCarriageId != null"> daily_carriage_id = #{dailyCarriageId} </if>
+                <if test="col != null"> and `col` = #{col}</if>
                 <if test="pattern != null"> and state like #{pattern}</if>
             </where>
-            limit 1;
+            limit 1 for update
     </select>
 </mapper>

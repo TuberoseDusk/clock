@@ -1,9 +1,11 @@
 package com.tuberose.clock.business.service;
 
+import com.tuberose.clock.business.entity.DailyTrain;
+
 import java.time.LocalDate;
 
 public interface DailyStopService {
-    void generate(LocalDate date, String trainCode);
+    void generateByDailyTrain(DailyTrain dailyTrain);
 
-    void deleteAll(LocalDate date);
+    void deleteByDailyTrainId(Long dailyTrainId);
 }

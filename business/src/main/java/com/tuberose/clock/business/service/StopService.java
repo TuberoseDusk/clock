@@ -1,5 +1,6 @@
 package com.tuberose.clock.business.service;
 
+import com.tuberose.clock.business.entity.Stop;
 import com.tuberose.clock.business.request.StopReq;
 import com.tuberose.clock.business.response.StopRes;
 

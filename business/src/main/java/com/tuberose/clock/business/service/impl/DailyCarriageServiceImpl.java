@@ -3,6 +3,7 @@ package com.tuberose.clock.business.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.tuberose.clock.business.entity.Carriage;
 import com.tuberose.clock.business.entity.DailyCarriage;
+import com.tuberose.clock.business.entity.DailyTrain;
 import com.tuberose.clock.business.mapper.CarriageMapper;
 import com.tuberose.clock.business.mapper.DailyCarriageMapper;
 import com.tuberose.clock.business.service.DailyCarriageService;
@@ -29,23 +30,25 @@ public class DailyCarriageServiceImpl implements DailyCarriageService {
 
     @Override
     @Transactional
-    public void generate(LocalDate date, String trainCode) {
-        dailyCarriageMapper.deleteByDateAndTrainCode(date, trainCode);
-        List<Carriage> carriages = carriageMapper.selectByTrainCodeOrderByIndex(trainCode);
-
+    public void generateByDailyTrain(DailyTrain dailyTrain) {
+        dailyCarriageMapper.deleteByDailyTrainId(dailyTrain.getDailyTrainId());
+        List<Carriage> carriages = carriageMapper.selectByTrainCodeOrderByIndex(dailyTrain.getCode());
         for (Carriage carriage : carriages) {
-            DailyCarriage dailyCarriage = BeanUtil.copyProperties(carriage, DailyCarriage.class);
-            dailyCarriage.setDate(date);
-            dailyCarriage.setDailyCarriageId(Snowflake.nextId());
+            DailyCarriage dailyCarriage = new DailyCarriage(Snowflake.nextId(),
+                    dailyTrain.getDailyTrainId(), carriage.getIndex(), carriage.getType());
             dailyCarriageMapper.insert(dailyCarriage);
-
-            dailySeatService.generate(dailyCarriage);
+            dailySeatService.generateByDailyCarriage(dailyCarriage);
         }
     }
 
     @Override
-    public void deleteAll(LocalDate date) {
-        dailyCarriageMapper.deleteByDate(date);
-        dailySeatService.deleteAll(date);
+    public void deleteByDailyTrainId(Long dailyTrainId) {
+
+        List<DailyCarriage> dailyCarriages = dailyCarriageMapper.selectByDailyTrainId(dailyTrainId);
+        for (DailyCarriage dailyCarriage : dailyCarriages) {
+            dailySeatService.deleteByDailyCarriageId(dailyCarriage.getDailyCarriageId());
+        }
+
+        dailyCarriageMapper.deleteByDailyTrainId(dailyTrainId);
     }
 }

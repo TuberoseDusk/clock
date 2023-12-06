@@ -37,6 +37,7 @@ public enum ErrorCodeEnum {
 
     TRAIN_SECTION_NOT_EXIST(2401, "线路不存在"),
     TICKET_SOLD_OUT(2402, "车票售罄"),
+    TICKET_SOLD_LOCK_ERROR(2403, "请求失败"),
 
     SCHEDULER_ERROR(3001, "调度器异常"),
     JOB_NOT_EXIST(3002, "任务不存在"),

@@ -8,9 +8,9 @@ import java.util.List;
 public interface SectionService {
     List<DailySection> query(LocalDate date, String startStop, String endStop);
 
-    DailySection queryByDateAndTrainCode(LocalDate date, String trainCode, String startStop, String endStop);
+    DailySection queryByDailyTrainId(Long dailyTrainId, String startStop, String endStop);
 
-    void clearCache(LocalDate date, String trainCode, String startStop, String endStop);
+    void clearCache(Long dailyTrainId, String startStop, String endStop);
 
     void updateCache(DailySection dailySection);
 }

@@ -1,7 +1,7 @@
 package com.tuberose.clock.business.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.tuberose.clock.business.entity.DailyStop;
+import com.tuberose.clock.business.entity.DailyTrain;
 import com.tuberose.clock.business.entity.Stop;
 import com.tuberose.clock.business.mapper.DailyStopMapper;
 import com.tuberose.clock.business.mapper.StopMapper;
@@ -11,7 +11,6 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
@@ -28,16 +27,17 @@ public class DailyStopServiceImpl implements DailyStopService {
 
     @Override
     @Transactional
-    public void generate(LocalDate date, String trainCode) {
-        dailyStopMapper.deleteByDateAndTrainCode(date, trainCode);
-        List<Stop> stops = stopMapper.selectByTrainCodeOrderByIndex(trainCode);
+    public void generateByDailyTrain(DailyTrain dailyTrain) {
+        List<Stop> stops = stopMapper.selectByTrainCodeOrderByIndex(dailyTrain.getCode());
         for (Stop stop : stops) {
-            DailyStop dailyStop = BeanUtil.copyProperties(stop, DailyStop.class,
-                    "arrivalTime", "departureTime");
+            DailyStop dailyStop = new DailyStop();
             dailyStop.setDailyStopId(Snowflake.nextId());
-            dailyStop.setDate(date);
+            dailyStop.setDailyTrainId(dailyTrain.getDailyTrainId());
+            dailyStop.setIndex(stop.getIndex());
+            dailyStop.setName(stop.getName());
 
-            long timeStamp = date.toEpochSecond(LocalTime.of(0, 0, 0), ZoneOffset.UTC);
+            long timeStamp = dailyTrain.getDate().toEpochSecond(LocalTime.of(0, 0, 0),
+                    ZoneOffset.UTC);
             LocalDateTime arrivalTime = LocalDateTime.ofEpochSecond(timeStamp + stop.getArrivalTime(),
                     0, ZoneOffset.UTC);
             LocalDateTime departureTime = LocalDateTime.ofEpochSecond(timeStamp + stop.getDepartureTime(),
@@ -50,7 +50,7 @@ public class DailyStopServiceImpl implements DailyStopService {
     }
 
     @Override
-    public void deleteAll(LocalDate date) {
-        dailyStopMapper.deleteByDate(date);
+    public void deleteByDailyTrainId(Long dailyTrainId) {
+        dailyStopMapper.deleteByDailyTrainId(dailyTrainId);
     }
 }

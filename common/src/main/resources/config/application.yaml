@@ -4,3 +4,7 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  configuration:
+    local-cache-scope: statement

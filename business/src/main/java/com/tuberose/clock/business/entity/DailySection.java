@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DailySection implements Serializable {
-    private LocalDate date;
+    private Long dailyTrainId;
     private String trainCode;
 
     private String startStop;

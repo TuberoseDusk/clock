@@ -4,12 +4,15 @@ import com.tuberose.clock.business.entity.DailyCarriage;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Mapper
 public interface DailyCarriageMapper {
-    int deleteByDateAndTrainCode(LocalDate date, String trainCode);
+    Integer deleteByDailyTrainId(Long dailyTrainId);
 
-    int deleteByDate(LocalDate date);
+    Integer insert(DailyCarriage dailyCarriage);
 
-    int insert(DailyCarriage dailyCarriage);
+    List<DailyCarriage> selectByDailyTrainIdAndType(Long dailyTrainId, Integer type);
+
+    List<DailyCarriage> selectByDailyTrainId(Long dailyTrainId);
 }

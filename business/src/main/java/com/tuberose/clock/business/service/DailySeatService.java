@@ -5,7 +5,7 @@ import com.tuberose.clock.business.entity.DailyCarriage;
 import java.time.LocalDate;
 
 public interface DailySeatService {
-    void generate(DailyCarriage dailyCarriage);
+    void generateByDailyCarriage(DailyCarriage dailyCarriage);
 
-    void deleteAll(LocalDate date);
+    void deleteByDailyCarriageId(Long dailyCarriageId);
 }

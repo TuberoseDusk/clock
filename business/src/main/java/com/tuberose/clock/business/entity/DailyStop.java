@@ -14,9 +14,7 @@ import java.time.LocalDateTime;
 public class DailyStop {
     private Long dailyStopId;
 
-    private LocalDate date;
-
-    private String trainCode;
+    private Long dailyTrainId;
 
     private Integer index;
 
