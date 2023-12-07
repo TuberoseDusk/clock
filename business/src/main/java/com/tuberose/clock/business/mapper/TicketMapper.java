@@ -13,4 +13,6 @@ public interface TicketMapper {
     List<Ticket> selectByOrderIdOrderByStartTimeDesc(Long orderId);
 
     List<Ticket> selectByPassengerIdOrderByStartTimeDesc(Long passengerId);
+
+    Integer updateByTicketId(Long ticketId, Integer carriageIndex, String row, String col, Integer state);
 }

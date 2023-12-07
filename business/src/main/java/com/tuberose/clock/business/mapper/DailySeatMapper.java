@@ -14,7 +14,7 @@ public interface DailySeatMapper {
 
     int countByDailyTrainIdAndTypeAndState(Long dailyTrainId, Integer type, String pattern);
 
-    DailySeat selectOneByDailyCarriageIdAndColAndState(Long dailyCarriageId, Integer type, String col, String pattern);
+    DailySeat selectOneByDailyCarriageIdAndColAndState(Long dailyCarriageId, String col, String pattern);
 
     Integer updateState(Long dailySeatId, String state);
 }

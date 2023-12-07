@@ -9,6 +9,8 @@ import com.tuberose.clock.business.mapper.DailySeatMapper;
 import com.tuberose.clock.business.mapper.DailyStopMapper;
 import com.tuberose.clock.business.mapper.DailyTrainMapper;
 import com.tuberose.clock.business.service.SectionService;
+import com.tuberose.clock.common.enums.ErrorCodeEnum;
+import com.tuberose.clock.common.exception.BusinessException;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -55,7 +57,9 @@ public class SectionServiceImpl implements SectionService {
         }
 
         dailySection = dailyStopMapper.selectDailySectionByDailyTrainId(dailyTrainId, startStop, endStop);
-        fillSectionSeat(dailySection);
+        if (dailySection != null) {
+            fillSectionSeat(dailySection);
+        }
         return dailySection;
     }
 
@@ -75,6 +79,21 @@ public class SectionServiceImpl implements SectionService {
             redisTemplate.opsForValue().set(key, dailySection);
             log.info("DailySection Cache UPDATE" + key + ": {}", dailySection);
         }
+    }
+
+    @Override
+    public DailySection checkSectionAvailable(Long dailyTrainId, String startStop, String endStop) {
+        // 判断是否存在这样的线路
+        DailySection dailySection = queryByDailyTrainId(dailyTrainId, startStop, endStop);
+        if (dailySection == null) {
+            throw new BusinessException(ErrorCodeEnum.TRAIN_SECTION_NOT_EXIST);
+        }
+
+        // 判断该线路是否还有余票
+        if (dailySection.getFirstClassSeatCount() <= 0 && dailySection.getSecondClassSeatCount() <= 0) {
+            throw new BusinessException(ErrorCodeEnum.TICKET_SOLD_OUT);
+        }
+        return dailySection;
     }
 
     private void fillSectionSeat(DailySection dailySection) {

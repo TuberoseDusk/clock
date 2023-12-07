@@ -33,6 +33,11 @@
     <update id="updateStateByTicketId">
         update ticket set state = #{state} where ticket_id = #{ticketId}
     </update>
+    <update id="updateByTicketId">
+        update ticket set carriage_index = #{carriageIndex}, `row` = #{row}, `col` = #{col},
+            state = #{state} where ticket_id = #{ticketId}
+    </update>
+
     <select id="selectByOrderIdOrderByStartTimeDesc"
             resultType="com.tuberose.clock.business.entity.Ticket"
             resultMap="TicketMap">

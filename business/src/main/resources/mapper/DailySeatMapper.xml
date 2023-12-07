@@ -36,6 +36,6 @@
                 <if test="col != null"> and `col` = #{col}</if>
                 <if test="pattern != null"> and state like #{pattern}</if>
             </where>
-            limit 1 for update
+            limit 1
     </select>
 </mapper>

@@ -13,4 +13,6 @@ public interface SectionService {
     void clearCache(Long dailyTrainId, String startStop, String endStop);
 
     void updateCache(DailySection dailySection);
+
+    DailySection checkSectionAvailable(Long dailyTrainId, String startStop, String endStop);
 }

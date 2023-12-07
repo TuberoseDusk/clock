@@ -1,19 +1,13 @@
 package com.tuberose.clock.business.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.tuberose.clock.business.entity.DailyCarriage;
-import com.tuberose.clock.business.entity.DailySeat;
-import com.tuberose.clock.business.entity.DailyTrain;
-import com.tuberose.clock.business.entity.Seat;
+import com.tuberose.clock.business.entity.*;
 import com.tuberose.clock.business.mapper.*;
 import com.tuberose.clock.business.service.DailySeatService;
-import com.tuberose.clock.business.service.DailyTrainService;
 import com.tuberose.clock.common.util.Snowflake;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -52,5 +46,15 @@ public class DailySeatServiceImpl implements DailySeatService {
     @Override
     public void deleteByDailyCarriageId(Long dailyCarriageId) {
         dailySeatMapper.deleteByDailyCarriageId(dailyCarriageId);
+    }
+
+    @Override
+    public DailySeat queryAvailable(Long dailyCarriageId, String col, String pattern) {
+        return dailySeatMapper.selectOneByDailyCarriageIdAndColAndState(dailyCarriageId, col, pattern);
+    }
+
+    @Override
+    public void updateStateByDailySeatId(Long dailySeatId, String state) {
+        dailySeatMapper.updateState(dailySeatId, state);
     }
 }
