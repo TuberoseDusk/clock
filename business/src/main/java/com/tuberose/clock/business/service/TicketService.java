@@ -1,6 +1,6 @@
 package com.tuberose.clock.business.service;
 
-import com.tuberose.clock.business.entity.Order;
+import com.tuberose.clock.business.entity.DailySection;
 import com.tuberose.clock.business.entity.Ticket;
 import com.tuberose.clock.business.request.OrderSubmissionReq;
 
@@ -11,6 +11,8 @@ public interface TicketService {
 
     void saveTickets(List<Ticket> tickets);
 
-    void generateTickets(List<Ticket> tickets, Order order, OrderSubmissionReq orderSubmissionReq);
+    DailySection availableTicketCheck(OrderSubmissionReq orderSubmissionReq);
+
+    void updateByTicketId(Long ticketId, Integer carriageIndex, String row, String col, Integer state);
 
 }
